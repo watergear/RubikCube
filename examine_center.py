@@ -48,7 +48,7 @@ locked_areas = VectorAreas([
 
 examine = Examine(src_vectors, dest_vectors, locked_areas, dump_message = True)
 ok = examine.test(gen_state(center_i_j))
-print("totol same:", examine.same_count)
-print("totol shift:", examine.shift_count)
-print("totol error:", examine.error_count)
+print("total same:", examine.same_count)
+print("total shift:", examine.shift_count)
+print("total error:", examine.error_count)
 print("ok:", bool(ok))

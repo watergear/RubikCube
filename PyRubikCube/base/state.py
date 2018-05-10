@@ -41,8 +41,8 @@ class State:
 
 		return str
 
-def gen_state(transforms):
-	index_set = get_index_set(transforms)
+def gen_state(transforms, otherwise=True):
+	index_set = get_index_set(transforms, otherwise)
 	indexes_list = get_indexes_group(index_set)
 	state = State(indexes_list)
 	for t in transforms:

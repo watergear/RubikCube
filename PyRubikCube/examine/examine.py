@@ -14,7 +14,7 @@ class Examine:
 		self.error_count = 0;
 
 		transforms = state.transforms
-		for indexes in state.indexes_map.keys():
+		for indexes in sorted(state.indexes_map.keys()):
 			vfrom = (indexes, (factorX, factorY, factorZ))
 			vto = (state.indexes_map[indexes], state.directions_map[indexes])
 

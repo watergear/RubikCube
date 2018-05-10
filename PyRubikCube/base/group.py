@@ -31,10 +31,11 @@ def get_transform_group(index_set, base_factor_list = base_factor_list_XYZ):
 			)
 	return transfrom_group
 
-def get_index_set(transforms):
+def get_index_set(transforms, otherwise=True):
 	index_set = set()
 	for t in transforms:
 		index_set.add(t.index)
 		index_set.add(-t.index)
-	index_set.add(Index('c', 1));
+	if otherwise:
+		index_set.add(Index('c', 1));
 	return sorted(index_set);

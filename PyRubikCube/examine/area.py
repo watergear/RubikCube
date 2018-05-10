@@ -194,3 +194,11 @@ area_edge_LD =	{
 area_center_U_around = area_center_U.copy()
 area_center_U_around['check_indexes'] = 'around'
 area_center_U_around['check_directions'] = 'Y'
+
+area_center_F_around = area_center_F.copy()
+area_center_F_around['check_indexes'] = 'around'
+area_center_F_around['check_directions'] = 'Z'
+
+area_center_B_around = area_center_B.copy()
+area_center_B_around['check_indexes'] = 'around'
+area_center_B_around['check_directions'] = 'Z'
