@@ -29,7 +29,7 @@ src_vectors = [
 	((I('I'), I('n'), I('-n')),		(D('X'), D('Y'), D('Z'))),
 	((I('-I'), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
 
-	# c is empty set
+	# c shall be empty set
 	((I('I'), I('c'), I('n')),		(D('X'), D('Y'), D('Z'))),
 	((I('I'), I('c'), I('-n')),		(D('X'), D('Y'), D('Z'))),
 ]
@@ -39,7 +39,7 @@ dest_vectors = [
 	((I('-I'), I('n'), I('n')),		(D('-X'), D('Y'), D('-Z'))),
 	((I('I'), I('n'), I('n')),		(D('-X'), D('Y'), D('-Z'))),
 
-	# c is empty set
+	# c shall be empty set
 	((I('I'), I('-c'), I('-n')),	(D('X'), D('-Y'), D('-Z'))),
 	((I('I'), I('-c'), I('n')),		(D('X'), D('-Y'), D('-Z'))),
 ]
@@ -66,7 +66,7 @@ locked_areas = VectorAreas([
 ])
 
 examine = Examine(src_vectors, dest_vectors, locked_areas, dump_message = True)
-ok = examine.test(gen_state(edge_transpose_I, otherwise=False))
+ok = examine.test(gen_state(edge_transpose_I, otherwise=True))
 print("total same:", examine.same_count)
 print("total shift:", examine.shift_count)
 print("total error:", examine.error_count)
