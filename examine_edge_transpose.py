@@ -3,14 +3,6 @@ from PyRubikCube.examine.examine import Examine
 from PyRubikCube.base.state import gen_state
 
 edge_transpose_I = [
-	T("X+", "I"),
-	T("X+", "I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X+", "I"),
-	T("X+", "I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
 	T("Y+", "I"),
 	T("Y+", "I"),
 	T("Y+", "-I'"),
@@ -21,6 +13,14 @@ edge_transpose_I = [
 	T("Y+", "-I'"),
 	T("Y+", "I"),
 	T("Y+", "I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X+", "I"),
+	T("X+", "I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X+", "I"),
+	T("X+", "I"),
 ]
 
 src_vectors = [

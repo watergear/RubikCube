@@ -3,21 +3,21 @@ from PyRubikCube.examine.examine import Examine
 from PyRubikCube.base.state import gen_state
 
 corner_edge_transpose = [
-	T("Z-", "-n"),
-	T("Y+", "n"),
-	T("Z+", "-n"),
-	T("Y-", "n"),
-	T("Z+", "-n"),
 	T("X+", "n"),
-	T("Z+", "-n"),
-	T("Z+", "-n"),
+	T("Z-", "-n"),
 	T("Y-", "n"),
 	T("Z+", "-n"),
-	T("Y-", "n"),
+	T("Y+", "n"),
 	T("Z-", "-n"),
 	T("Y+", "n"),
+	T("Z+", "-n"),
 	T("Z+", "-n"),
 	T("X-", "n"),
+	T("Z-", "-n"),
+	T("Y+", "n"),
+	T("Z-", "-n"),
+	T("Y-", "n"),
+	T("Z+", "-n"),
 ]
 
 src_vectors = [
