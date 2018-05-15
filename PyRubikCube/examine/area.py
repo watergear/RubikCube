@@ -83,6 +83,12 @@ def D(directName):
 	factor = 1 if not '-' == directName[0] else -1
 	return Factor(directName[-1], factor)
 
+area_inner = {
+		'from'	:	(I('-n'), I('-n'), I('-n')),
+		'to'	:	(I('+n'), I('+n'), I('+n')),
+		'bound'	:	(  '()' ,   '()' ,   '()'  ),
+	}
+
 area_center_F = {
 		'from'	:	(I('-n'), I('-n'), I('-n')),
 		'to'	:	(I('+n'), I('+n'), I('-n')),

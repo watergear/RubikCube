@@ -73,6 +73,7 @@ dest_vectors = [
 ]
 
 locked_areas = VectorAreas([
+	# area_inner, # no match
 	area_center_F_around,
 	area_center_B_around,
 	area_center_L,
