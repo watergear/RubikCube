@@ -2,53 +2,41 @@ from PyRubikCube.examine.area import *
 from PyRubikCube.examine.examine import Examine
 from PyRubikCube.base.state import gen_state
 
-edge_reverse_I = [
-	T("X+", "I"),
-	T("X+", "I"),
+edge_3transpose_i = [
+	T("X+", "i"),
 	T("Y+", "n"),
 	T("Y+", "n"),
-	T("X+", "I"),
-	T("X+", "-I"),
-
+	T("X-", "i"),
 	T("Y+", "n"),
 	T("Y+", "n"),
-	T("X+", "I"),
+	T("X+", "-i"),
 	T("Y+", "n"),
 	T("Y+", "n"),
-	T("X+", "-I"),
+	T("X+", "i"),
 	T("Y+", "n"),
 	T("Y+", "n"),
-	T("X-", "-I"),
+	T("X-", "i"),
 	T("Y+", "n"),
 	T("Y+", "n"),
-	T("X-", "I"),
-	T("X-", "-I"),
+	T("X-", "-i"),
 	T("Y+", "n"),
 	T("Y+", "n"),
-	T("X-", "-I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X+", "-I"),
-
-	T("X-", "-I"),
-	T("X-", "I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X+", "I"),
-	T("X+", "I"),
 ]
+
 
 src_vectors = [
-	((I('I'), I('n'), I('-n')),		(D('X'), D('Y'), D('Z'))),
-	((I('-I'), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
+	((I('i'), I('n'), I('n')),	(D('X'), D('Y'), D('Z'))),
+	((I('i'), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
+	((I('-i'), I('n'), I('n')),	(D('X'), D('Y'), D('Z'))),
 ]
 dest_vectors = [
-	((I('-I'), I('n'), I('-n')),	(D('-X'), D('-Z'), D('-Y'))),
-	((I('I'), I('n'), I('-n')),		(D('-X'), D('-Z'), D('-Y'))),
+	((I('i'), I('n'), I('-n')),	(D('X'), D('Z'), D('-Y'))),
+	((I('-i'), I('n'), I('n')),	(D('-X'), D('Y'), D('-Z'))),
+	((I('i'), I('n'), I('n')),	(D('-X'), D('Z'), D('Y'))),
 ]
 
 locked_areas = VectorAreas([
-	area_center_F_around,
+	area_center_F,
 	area_center_B,
 	area_center_L,
 	area_center_R,
@@ -69,7 +57,7 @@ locked_areas = VectorAreas([
 ])
 
 examine = Examine(src_vectors, dest_vectors, locked_areas, dump_message = True)
-ok = examine.test(gen_state(edge_reverse_I))
+ok = examine.test(gen_state(edge_3transpose_i))
 print("total same:", examine.same_count)
 print("total shift:", examine.shift_count)
 print("total error:", examine.error_count)
