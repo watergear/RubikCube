@@ -19,39 +19,52 @@ corner_transpose_I = [
 	T("Y-", "n"),
 	T("Z+", "-n"),
 
-	T("Y+", "I"),
-	T("Y+", "I"),
-	T("Y+", "-I'"),
-	T("Y+", "-I'"),
-	T("X+", "I"),
-	T("X+", "I"),
-	T("Y+", "-I'"),
-	T("Y+", "-I'"),
-	T("Y+", "I"),
-	T("Y+", "I"),
+	# edge 3 transpose reverse
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X+", "-I"),
 	T("Y+", "n"),
 	T("Y+", "n"),
 	T("X+", "I"),
-	T("X+", "I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X-", "I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X-", "-I"),
 	T("Y+", "n"),
 	T("Y+", "n"),
 	T("X+", "I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X-", "I"),
+
+	# edge 3 transpose mirror X
+	T("X+", "-I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X-", "-I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
 	T("X+", "I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X+", "-I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X-", "-I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
+	T("X-", "I"),
+	T("Y+", "n"),
+	T("Y+", "n"),
 ]
 
 src_vectors = [
 	((I('n'), I('n'), I('-n')),		(D('X'), D('Y'), D('Z'))),
 	((I('-n'), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
 
-	# I' shall be empty set
-	((I("I'"), I('n'), I('n')),		(D('X'), D('Y'), D('Z'))),
-	((I("-I'"), I('n'), I('n')),	(D('X'), D('Y'), D('Z'))),
-	((I("I'"), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
-	((I("-I'"), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
-
 	# c shall be empty set
-	((I('I'), I('c'), I('n')),		(D('X'), D('Y'), D('Z'))),
-	((I('I'), I('c'), I('-n')),		(D('X'), D('Y'), D('Z'))),
 	((I('c'), I('n'), I('n')),		(D('X'), D('Y'), D('Z'))),
 	((I('c'), I('n'), I('-n')),		(D('X'), D('Y'), D('Z'))),
 ]
@@ -59,23 +72,15 @@ dest_vectors = [
 	((I('-n'), I('n'), I('-n')),	(D('Z'), D('Y'), D('-X'))),
 	((I('n'), I('n'), I('-n')),		(D('-Z'), D('Y'), D('X'))),
 
-	# I' shall be empty set
-	((I("-I'"), I('n'), I('-n')),	(D('-X'), D('Y'), D('-Z'))),
-	((I("I'"), I('n'), I('-n')),	(D('-X'), D('Y'), D('-Z'))),
-	((I("-I'"), I('n'), I('n')),	(D('-X'), D('Y'), D('-Z'))),
-	((I("I'"), I('n'), I('n')),		(D('-X'), D('Y'), D('-Z'))),
-
 	# c shall be empty set
-	((I('I'), I('-c'), I('-n')),	(D('X'), D('-Y'), D('-Z'))),
-	((I('I'), I('-c'), I('n')),		(D('X'), D('-Y'), D('-Z'))),
 	((I('-c'), I('n'), I('-n')),	(D('-X'), D('Y'), D('-Z'))),
 	((I('-c'), I('n'), I('n')),		(D('-X'), D('Y'), D('-Z'))),
 ]
 
 locked_areas = VectorAreas([
-	# area_inner, # no match
-	area_center_F_around,
-	area_center_B_around,
+	area_inner,
+	area_center_F,
+	area_center_B,
 	area_center_L,
 	area_center_R,
 	area_center_D,

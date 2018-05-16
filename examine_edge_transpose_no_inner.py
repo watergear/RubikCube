@@ -3,45 +3,24 @@ from PyRubikCube.examine.examine import Examine
 from PyRubikCube.base.state import gen_state
 
 edge_transpose_I = [
-	# edge 3 transpose reverse
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X+", "-I"),
+	T("Y+", "I"),
+	T("Y+", "I"),
+	T("Y+", "-I'"),
+	T("Y+", "-I'"),
+	T("X+", "I"),
+	T("X+", "I"),
+	T("Y+", "-I'"),
+	T("Y+", "-I'"),
+	T("Y+", "I"),
+	T("Y+", "I"),
 	T("Y+", "n"),
 	T("Y+", "n"),
 	T("X+", "I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X-", "I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X-", "-I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
 	T("X+", "I"),
 	T("Y+", "n"),
 	T("Y+", "n"),
-	T("X-", "I"),
-
-	# edge 3 transpose mirror X
-	T("X+", "-I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X-", "-I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
 	T("X+", "I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X+", "-I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X-", "-I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
-	T("X-", "I"),
-	T("Y+", "n"),
-	T("Y+", "n"),
+	T("X+", "I"),
 ]
 
 src_vectors = [
@@ -49,22 +28,30 @@ src_vectors = [
 	((I('-I'), I('n'), I('n')),		(D('X'), D('Y'), D('Z'))),
 	((I('I'), I('n'), I('-n')),		(D('X'), D('Y'), D('Z'))),
 	((I('-I'), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
+
+	# c shall be empty set
+	((I('I'), I('c'), I('n')),		(D('X'), D('Y'), D('Z'))),
+	((I('I'), I('c'), I('-n')),		(D('X'), D('Y'), D('Z'))),
 ]
 dest_vectors = [
 	((I('-I'), I('n'), I('-n')),	(D('-X'), D('Y'), D('-Z'))),
 	((I('I'), I('n'), I('-n')),		(D('-X'), D('Y'), D('-Z'))),
 	((I('-I'), I('n'), I('n')),		(D('-X'), D('Y'), D('-Z'))),
 	((I('I'), I('n'), I('n')),		(D('-X'), D('Y'), D('-Z'))),
+
+	# c shall be empty set
+	((I('I'), I('-c'), I('-n')),	(D('X'), D('-Y'), D('-Z'))),
+	((I('I'), I('-c'), I('n')),		(D('X'), D('-Y'), D('-Z'))),
 ]
 
 locked_areas = VectorAreas([
-	area_inner,
-	area_center_F,
-	area_center_B,
+	# area_inner, # no match
+	area_center_F_around,
+	area_center_B_around,
 	area_center_L,
 	area_center_R,
 	area_center_D,
-	area_center_U,
+	area_center_U_around,
 	area_edge_UB,
 	area_edge_UF,
 	area_edge_DB,
