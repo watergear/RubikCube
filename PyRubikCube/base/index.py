@@ -1,21 +1,21 @@
 class Index:
-	def __init__(self, name = '', sign = 0):
-		self.name = name if not 0 == sign else None;
-		self.sign = sign;
+	def __init__(self, name = '', ratio = 0):
+		self.name = name if not 0 == ratio else None;
+		self.ratio = ratio;
 
 	def __hash__(self):
-		return hash(self.name)*self.sign
+		return hash(self.name)*self.ratio
 
-	def __mul__(self, factor):
-		return Index(self.name, self.sign*factor)
+	def __mul__(self, ratio):
+		return Index(self.name, self.ratio*ratio)
 
 	def __neg__(self):
 		return self.__mul__(-1)
 
 	def __iadd__(self, other):
-		if 0 == self.sign:
+		if 0 == self.ratio:
 			self = other
-		elif not 0 == other.sign:
+		elif not 0 == other.ratio:
 			raise ValueError
 		return self
 
@@ -23,17 +23,17 @@ class Index:
 		return self.__iadd__(other)
 
 	def __eq__(self, other):
-		if 0 == self.sign and 0 == other.sign:
+		if 0 == self.ratio and 0 == other.ratio:
 			return True
-		return self.sign == other.sign and self.name == other.name
+		return self.ratio == other.ratio and self.name == other.name
 	def __lt__(self, other):
-		if self.sign < other.sign:
+		if self.ratio < other.ratio:
 			return True
-		elif self.sign > other.sign:
+		elif self.ratio > other.ratio:
 			return False
-		elif 0 == self.sign:
+		elif 0 == self.ratio:
 			return False
-		elif self.sign < 0:
+		elif self.ratio < 0:
 			return self.name > other.name
 		else:
 			return self.name < other.name
@@ -41,8 +41,11 @@ class Index:
 		return self.__lt__(other) or self.__eq__(other)
 
 	def __repr__(self):
-		if ( 0 == self.sign ):
+		if ( 0 == self.ratio ):
 			return "None";
-		if ( self.sign < 0 ):
+		if ( self.ratio < 0 ):
 			return "-" + self.name
 		return self.name
+
+class NumericIndex(int):
+	pass

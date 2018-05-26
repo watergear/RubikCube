@@ -1,6 +1,7 @@
+from PyRubikCube.base.symbol import *
+from PyRubikCube.base.state import gen_transform_state
 from PyRubikCube.examine.area import *
-from PyRubikCube.examine.examine import Examine
-from PyRubikCube.base.state import gen_state
+from PyRubikCube.examine.examine import Examiner
 
 edge_reverse_I = [
 	T("X+", "I"),
@@ -39,15 +40,15 @@ edge_reverse_I = [
 ]
 
 src_vectors = [
-	((I('I'), I('n'), I('-n')),		(D('X'), D('Y'), D('Z'))),
-	((I('-I'), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
+	(W('I', 'n', '-n'),		V('X', 'Y', 'Z')),
+	(W('-I', 'n', '-n'),	V('X', 'Y', 'Z')),
 ]
 dest_vectors = [
-	((I('-I'), I('n'), I('-n')),	(D('-X'), D('-Z'), D('-Y'))),
-	((I('I'), I('n'), I('-n')),		(D('-X'), D('-Z'), D('-Y'))),
+	(W('-I', 'n', '-n'),	V('-X', '-Z', '-Y')),
+	(W('I', 'n', '-n'),		V('-X', '-Z', '-Y')),
 ]
 
-locked_areas = VectorAreas([
+locked_areas = Areas([
 	# area_inner, # no match
 	area_center_F_around,
 	area_center_B,
@@ -69,9 +70,9 @@ locked_areas = VectorAreas([
 	area_edge_LD,
 ])
 
-examine = Examine(src_vectors, dest_vectors, locked_areas, dump_message = True)
-ok = examine.test(gen_state(edge_reverse_I))
-print("total same:", examine.same_count)
-print("total shift:", examine.shift_count)
-print("total error:", examine.error_count)
+examiner = Examiner(src_vectors, dest_vectors, locked_areas, dump_message = True)
+ok = examiner.test(gen_transform_state(edge_reverse_I))
+print("total same:", examiner.same_count)
+print("total shift:", examiner.shift_count)
+print("total error:", examiner.error_count)
 print("ok:", bool(ok))

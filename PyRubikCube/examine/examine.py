@@ -1,6 +1,6 @@
-from ..base.transform import *
+from ..base.transform import factorX, factorY, factorZ
 
-class Examine:
+class Examiner:
 	def __init__(self, src_vectors, dest_vectors, locked_areas, dump_message = False):
 		self.src_vectors = src_vectors
 		self.dest_vectors = dest_vectors
@@ -14,9 +14,9 @@ class Examine:
 		self.error_count = 0;
 
 		transforms = state.transforms
-		for indexes in sorted(state.indexes_map.keys()):
+		for indexes in sorted(state.positions_map.keys()):
 			vfrom = (indexes, (factorX, factorY, factorZ))
-			vto = (state.indexes_map[indexes], state.directions_map[indexes])
+			vto = (state.positions_map[indexes], state.orientations_map[indexes])
 
 			if vfrom in self.src_vectors:
 				vdest = self.dest_vectors[self.src_vectors.index(vfrom)]

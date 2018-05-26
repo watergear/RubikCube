@@ -1,6 +1,7 @@
-﻿from PyRubikCube.examine.area import *
-from PyRubikCube.examine.examine import Examine
-from PyRubikCube.base.state import gen_state
+﻿from PyRubikCube.base.symbol import *
+from PyRubikCube.base.state import gen_transform_state
+from PyRubikCube.examine.area import *
+from PyRubikCube.examine.examine import Examiner
 
 corner_3transpose = [
 	T("Z-", "-n"),
@@ -18,17 +19,17 @@ corner_3transpose = [
 ]
 
 src_vectors = [
-	((I('n'), I('n'), I('n')),		(D('X'), D('Y'), D('Z'))),
-	((I('n'), I('n'), I('-n')),		(D('X'), D('Y'), D('Z'))),
-	((I('-n'), I('n'), I('-n')),	(D('X'), D('Y'), D('Z'))),
+	(W('n', 'n', 'n'),		V('X', 'Y', 'Z')),
+	(W('n', 'n', '-n'),		V('X', 'Y', 'Z')),
+	(W('-n', 'n', '-n'),	V('X', 'Y', 'Z')),
 ]
 dest_vectors = [
-	((I('n'), I('n'), I('-n')),		(D('Z'), D('Y'), D('-X'))),
-	((I('-n'), I('n'), I('-n')),	(D('Z'), D('Y'), D('-X'))),
-	((I('n'), I('n'), I('n')),		(D('-X'), D('Y'), D('-Z'))),
+	(W('n', 'n', '-n'),		V('Z', 'Y', '-X')),
+	(W('-n', 'n', '-n'),	V('Z', 'Y', '-X')),
+	(W('n', 'n', 'n'),		V('-X', 'Y', '-Z')),
 ]
 
-locked_areas = VectorAreas([
+locked_areas = Areas([
 	area_inner,
 	area_center_F,
 	area_center_B,
@@ -48,11 +49,19 @@ locked_areas = VectorAreas([
 	area_edge_RD,
 	area_edge_LU,
 	area_edge_LD,
+	area_corner_LDF,
+	area_corner_LDB,
+	area_corner_LUF,
+	area_corner_LUB,
+	area_corner_RDF,
+	area_corner_RDB,
+	area_corner_RUF,
+	area_corner_RUB,
 ])
 
-examine = Examine(src_vectors, dest_vectors, locked_areas, dump_message = True)
-ok = examine.test(gen_state(corner_3transpose))
-print("total same:", examine.same_count)
-print("total shift:", examine.shift_count)
-print("total error:", examine.error_count)
+examiner = Examiner(src_vectors, dest_vectors, locked_areas, dump_message = True)
+ok = examiner.test(gen_transform_state(corner_3transpose))
+print("total same:", examiner.same_count)
+print("total shift:", examiner.shift_count)
+print("total error:", examiner.error_count)
 print("ok:", bool(ok))

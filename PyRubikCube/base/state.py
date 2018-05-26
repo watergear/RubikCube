@@ -1,25 +1,24 @@
-from .factor import *
-from .transform import *
+from .transform import factorX, factorY, factorZ
 from .group import *
 
 class State:
 	def __init__(self, indexes_list):
-		self.indexes_map = {}
-		self.directions_map = {}
+		self.positions_map = {}
+		self.orientations_map = {}
 		self.actives_map = {}
 
 		for indexes in indexes_list:
-			self.indexes_map[indexes] = indexes
-			self.directions_map[indexes] = (factorX, factorY, factorZ)
+			self.positions_map[indexes] = indexes
+			self.orientations_map[indexes] = (factorX, factorY, factorZ)
 			self.actives_map[indexes] = []
 
 		self.transforms = []
 
 	def transform(self, t):
-		for key in self.indexes_map.keys():
-			if t.is_active(self.indexes_map[key]):
-				self.indexes_map[key], self.directions_map[key] = \
-					t.transform((self.indexes_map[key], self.directions_map[key]))
+		for key in self.positions_map.keys():
+			if t.is_active(self.positions_map[key]):
+				self.positions_map[key], self.orientations_map[key] = \
+					t.transform((self.positions_map[key], self.orientations_map[key]))
 				self.actives_map[key].append(1)
 			else:
 				self.actives_map[key].append(0)
@@ -29,9 +28,9 @@ class State:
 		str = ""
 		str += "--------------------------------------------"
 		str += "\n"
-		str += "indexes_map: " + repr(self.indexes_map)
+		str += "positions_map: " + repr(self.positions_map)
 		str += "\n"
-		str += "directions_map: " + repr(self.directions_map)
+		str += "orientations_map: " + repr(self.orientations_map)
 		str += "\n"
 		str += "actives_map: " + repr(self.actives_map)
 		str += "\n"
@@ -41,11 +40,15 @@ class State:
 
 		return str
 
-def gen_state(transforms, otherwise=True):
-	index_set = get_index_set(transforms, otherwise)
+def gen_transform_state(transforms, otherwise=True):
+	index_set = get_index_set_by_transform(transforms, otherwise)
 	indexes_list = get_indexes_group(index_set)
 	state = State(indexes_list)
 	for t in transforms:
 		state.transform(t)
 	return state
 
+def gen_original_state(n, odd):
+	index_set = get_index_set_by_n(n, odd)
+	indexes_list = get_indexes_group(index_set)
+	return State(indexes_list)
