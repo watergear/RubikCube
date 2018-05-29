@@ -14,9 +14,9 @@ class Examiner:
 		self.error_count = 0;
 
 		transforms = state.transforms
-		for indexes in sorted(state.positions_map.keys()):
+		for indexes in sorted(state.locations_map.keys()):
 			vfrom = (indexes, (factorX, factorY, factorZ))
-			vto = (state.positions_map[indexes], state.orientations_map[indexes])
+			vto = (state.locations_map[indexes], state.orientations_map[indexes])
 
 			if vfrom in self.src_vectors:
 				vdest = self.dest_vectors[self.src_vectors.index(vfrom)]

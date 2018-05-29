@@ -3,22 +3,22 @@ from .group import *
 
 class State:
 	def __init__(self, indexes_list):
-		self.positions_map = {}
+		self.locations_map = {}
 		self.orientations_map = {}
 		self.actives_map = {}
 
 		for indexes in indexes_list:
-			self.positions_map[indexes] = indexes
+			self.locations_map[indexes] = indexes
 			self.orientations_map[indexes] = (factorX, factorY, factorZ)
 			self.actives_map[indexes] = []
 
 		self.transforms = []
 
 	def transform(self, t):
-		for key in self.positions_map.keys():
-			if t.is_active(self.positions_map[key]):
-				self.positions_map[key], self.orientations_map[key] = \
-					t.transform((self.positions_map[key], self.orientations_map[key]))
+		for key in self.locations_map.keys():
+			if t.is_active(self.locations_map[key]):
+				self.locations_map[key], self.orientations_map[key] = \
+					t.transform((self.locations_map[key], self.orientations_map[key]))
 				self.actives_map[key].append(1)
 			else:
 				self.actives_map[key].append(0)
@@ -28,7 +28,7 @@ class State:
 		str = ""
 		str += "--------------------------------------------"
 		str += "\n"
-		str += "positions_map: " + repr(self.positions_map)
+		str += "locations_map: " + repr(self.locations_map)
 		str += "\n"
 		str += "orientations_map: " + repr(self.orientations_map)
 		str += "\n"

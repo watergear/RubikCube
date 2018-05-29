@@ -28,6 +28,8 @@ def W(x, y, z):
 def V(x, y, z):
 	return (F(x), F(y), F(z))
 
+V_XYZ = V('X','Y','Z')
+
 def SMT(modeName, factorName):
 	try:
 		mode, ratio = mapSymmetrySymbol[modeName]
@@ -36,3 +38,23 @@ def SMT(modeName, factorName):
 	factor = Factor(factorName, 1)
 	return Symmetry(mode, factor, ratio)
 
+SMT_MX	= SMT("||",  "X")
+SMT_MY	= SMT("||",  "Y")
+SMT_MZ	= SMT("||",  "Z")
+
+SMT_RX	= SMT("[]",  "X")
+SMT_RNX	= SMT("[]-", "X")
+SMT_R2X	= SMT("[]2", "X")
+SMT_RY	= SMT("[]",  "Y")
+SMT_RNY	= SMT("[]-", "Y")
+SMT_R2Y	= SMT("[]2", "Y")
+SMT_RZ	= SMT("[]",  "Z")
+SMT_RNZ	= SMT("[]-", "Z")
+SMT_R2Z	= SMT("[]2", "Z")
+
+SMT_OX	= SMT(r"//", "X")
+SMT_ONX	= SMT(r"\\", "X")
+SMT_OY	= SMT(r"//", "Y")
+SMT_ONY	= SMT(r"\\", "Y")
+SMT_OZ	= SMT(r"//", "Z")
+SMT_ONZ	= SMT(r"\\", "Z")

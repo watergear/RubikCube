@@ -39,15 +39,15 @@ class CenterMidpointSolution(Solution):
 
 		return {
 			( (W(0,n,0), V('Z','Y','-X')),
-				(W(0,n,0), V('X','Y','Z')) ) :
+				(W(0,n,0), V_XYZ) ) :
 			[TYn],
 			
 			( (W(0,n,0), V('-Z','Y','X')),
-				(W(0,n,0), V('X','Y','Z')) ) :
+				(W(0,n,0), V_XYZ) ) :
 			[TYn_],
 			
 			( (W(0,n,0), V('-X','Y','-Z')),
-				(W(0,n,0), V('X','Y','Z')) ) :
+				(W(0,n,0), V_XYZ) ) :
 			[TYn, TYn],
 		}
 
@@ -56,21 +56,21 @@ class CenterMidpointSolution(Solution):
 
 		solutionsW_map = self.get_solutions_W(n)
 		smt_list = [
-			SMT("[]","Z")
+			SMT_RZ
 		]
 		W_check = W(0,n,0)
 		self.solveW_smt(W_check, solutionsW_map, smt_list)
 
 		solutionsWV_map = self.get_solutions_WV(n)
 		smt_list = [
-			SMT("||","Y"),
-			SMT("[]","X"),
-			SMT("[]","Y"),
-			SMT("[]","Y"),
-			SMT("[]","Y"),
+			SMT_MY,
+			SMT_RX,
+			SMT_RY,
+			SMT_RY,
+			SMT_RY,
 		]
 		W_check = W(0,n,0)
-		V_check = V('X','Y','Z')
+		V_check = V_XYZ
 		self.solveWV_smt(W_check, V_check, solutionsWV_map, smt_list)
 
 		return self.solutions_list
