@@ -115,3 +115,6 @@ class Transform:
 
 def inverse_transform(t):
 	return Transform(factor = t.factor, clockwise = t.clockwise*-1, index = t.index)
+
+def inverse_transforms(tlist):
+	return [inverse_transform(t) for t in tlist[::-1]]
