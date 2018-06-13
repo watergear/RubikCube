@@ -1,6 +1,9 @@
 from .factor import reFactor
 from .transform import *
 
+factorE = Factor('', 1)
+
+Equal = "Equal"
 Mirror = "Mirror"
 Rotation = "Rotation"
 Oblique = "Oblique"
@@ -8,6 +11,12 @@ Oblique = "Oblique"
 Ratio_1 = 1
 Ratio_2 = 2
 Ratio_N1 = -1
+
+MatE 	= \
+	(	(1, 0, 0),
+		(0, 1, 0),
+		(0, 0, 1)
+	)
 
 RefX 	= \
 	(	(-1, 0, 0),
@@ -94,6 +103,8 @@ NegObliqueRefZ 	= \
 NegObliqueRefZ_ = NegObliqueRefZ
 
 mapSymmetryMat = {
+	(Equal, factorE, Ratio_1):		MatE,
+
 	(Mirror, factorX, Ratio_1):		RefX,
 	(Mirror, factorY, Ratio_1):		RefY,
 	(Mirror, factorZ, Ratio_1):		RefZ,
@@ -117,6 +128,7 @@ mapSymmetryMat = {
 }
 
 mapInverseMat = {
+	MatE		:		MatE,
 	RefX		:		RefX,
 	RefY		:		RefY,
 	RefZ		:		RefZ,
@@ -187,6 +199,9 @@ SMT_V_N1_N1_N1	= \
 
 # map { (mode, factor, ratio): (factor, clockwise, index) }
 mapSymmetryTransformMats = {
+	(Equal, factorE, Ratio_1):
+		(SMT_XYZ,	SMT_V_1_1_1,	SMT_V_1_1_1),
+
 	(Mirror, factorX, Ratio_1):
 		(SMT_XYZ,	SMT_V_1_N1_N1,	SMT_V_N1_1_1),
 	(Mirror, factorY, Ratio_1):
@@ -228,6 +243,7 @@ mapSymmetryTransformMats = {
 }
 
 mapSymmetrySymbol = {
+	"==" 		: (Equal, Ratio_1),
 	"||" 		: (Mirror, Ratio_1),
 	r"//" 		: (Oblique, Ratio_1),
 	r"\\" 		: (Oblique, Ratio_N1),

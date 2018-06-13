@@ -38,6 +38,8 @@ def SMT(modeName, factorName):
 	factor = Factor(factorName, 1)
 	return Symmetry(mode, factor, ratio)
 
+SMT_E	= SMT("==","")
+
 SMT_MX	= SMT("||",  "X")
 SMT_MY	= SMT("||",  "Y")
 SMT_MZ	= SMT("||",  "Z")
