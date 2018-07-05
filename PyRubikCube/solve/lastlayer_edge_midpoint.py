@@ -432,9 +432,7 @@ class LastLayerEdgeMidpointSolution(Solution):
 			self.solutions_list += solutions
 
 	def solve(self):
-		n = self.problem.n
-
-		self.solveV();
-		self.solveW();
+		self.solveV()
+		self.solveW()
 
 		return self.solutions_list

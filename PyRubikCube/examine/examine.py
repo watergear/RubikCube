@@ -43,6 +43,7 @@ class Examiner:
 			self.same_count += 1
 		else:
 			self.shift_count += 1
+			#print(vfrom, vto)
 
 		if ( not pass_check ):
 			self.error_count += 1
