@@ -40,14 +40,6 @@ class State:
 
 		return str
 
-def gen_transform_state(transforms, otherwise=True):
-	index_set = get_index_set_by_transform(transforms, otherwise)
-	indexes_list = get_indexes_group(index_set)
-	state = State(indexes_list)
-	for t in transforms:
-		state.transform(t)
-	return state
-
 def gen_original_state(n, odd):
 	index_set = get_index_set_by_n(n, odd)
 	indexes_list = get_indexes_group(index_set)

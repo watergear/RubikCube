@@ -1,12 +1,12 @@
 from PyRubikCube.base.symbol import *
-from PyRubikCube.examine.area import *
-from PyRubikCube.examine.examine import *
 from PyRubikCube.solve.problem import *
 from PyRubikCube.solve.firstlayer_corner import *
+from PyRubikCube.examine.area import *
+from PyRubikCube.examine.examine import *
+from PyRubikCube.examine.solve import *
 
 N = 3
 n = int(N/2)
-odd = (1 == N % 2)
 
 numeric_area_factory = NumericAreaFactory(n)
 numeric_area_all 		= 	numeric_area_factory.all()
@@ -86,155 +86,137 @@ locked_areas = Areas([
 
 examiner = Examiner([], [], locked_areas, dump_message = False)
 
-no_pass = 0;
-def examine_solution(W_check, W_new, V_new):
-	global no_pass
-	global N, n, odd
-	global examiner
-
-	problem = Problem(N)
-	problem.state.locations_map[W_check] = W_new
-	problem.state.orientations_map[W_check] = V_new
-	if not W_check == W_new:
-		del problem.state.locations_map[W_new]
-		del problem.state.orientations_map[W_new]
-
-	s = FirstLayerCornerSolution(problem)
-	solutions_tlist = s.solve()
-	print("solutions:")
-	print(solutions_tlist)
-
-	ok = examiner.test(problem.state)
-	print("total same:", examiner.same_count)
-	print("total shift:", examiner.shift_count)
-	print("total error:", examiner.error_count)
-	print("ok:", bool(ok))
-	print()
-
-	if not ok:
-		no_pass += 1
-
 examinations_list = [
-	(
-	W(n,n,-n), V('X','-Z','Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,n,-n), V('-Y','X','Z'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,n,-n), V('-Z','-Y','-X'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(n,n,-n), V('X','-Z','Y')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,n,-n), V('-Y','X','Z')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,n,-n), V('-Z','-Y','-X')),
+	},
 
-	(
-	W(-n,n,-n), V('Y','-Z','-X'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,n,-n), V('Z','X','Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,n,-n), V('-X','-Y','Z'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(-n,n,-n), V('Y','-Z','-X')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,n,-n), V('Z','X','Y')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,n,-n), V('-X','-Y','Z')),
+	},
 
-	(
-	W(-n,n,n), V('-X','-Z','-Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,n,n), V('Y','X','-Z'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,n,n), V('Z','-Y','X'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(-n,n,n), V('-X','-Z','-Y')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,n,n), V('Y','X','-Z')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,n,n), V('Z','-Y','X')),
+	},
 
-	(
-	W(n,n,n), V('-Y','-Z','X'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,n,n), V('-Z','X','-Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,n,n), V('X','-Y','-Z'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(n,n,n), V('-Y','-Z','X')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,n,n), V('-Z','X','-Y')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,n,n), V('X','-Y','-Z')),
+	},
 
 
-	(
-	W(n,-n,-n), V('-Z','-X','Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,-n,-n), V('-Y','Z','-X'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,-n,-n), V('X','Y','Z'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(n,-n,-n), V('-Z','-X','Y')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,-n,-n), V('-Y','Z','-X')),
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,-n,-n), V('X','Y','Z')),
+	},
 
-	(
-	W(-n,-n,-n), V('Y','-X','Z'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,-n,-n), V('-X','Z','Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,-n,-n), V('Z','Y','-X'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(-n,-n,-n), V('Y','-X','Z')),
+	W(-n,-n,-n) :
+		None,
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,-n,-n), V('-X','Z','Y')),
+	W(-n,-n,-n) :
+		None,
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,-n,-n), V('Z','Y','-X')),
+	W(-n,-n,-n) :
+		None,
+	},
 
-	(
-	W(-n,-n,n), V('Z','-X','-Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,-n,n), V('Y','Z','X'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(-n,-n,n), V('-X','Y','-Z'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(-n,-n,n), V('Z','-X','-Y')),
+	W(-n,-n,n) :
+		None,
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,-n,n), V('Y','Z','X')),
+	W(-n,-n,n) :
+		None,
+	},
+	{
+	W(n,-n,-n) :
+		(W(-n,-n,n), V('-X','Y','-Z')),
+	W(-n,-n,n) :
+		None,
+	},
 
-	(
-	W(n,-n,n), V('-Y','-X','-Z'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,-n,n), V('X','Z','-Y'),
-	W(n,-n,-n), V_XYZ,
-	),
-	(
-	W(n,-n,n), V('-Z','Y','X'),
-	W(n,-n,-n), V_XYZ,
-	),
+	{
+	W(n,-n,-n) :
+		(W(n,-n,n), V('-Y','-X','-Z')),
+	W(n,-n,n) :
+		None,
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,-n,n), V('X','Z','-Y')),
+	W(n,-n,n) :
+		None,
+	},
+	{
+	W(n,-n,-n) :
+		(W(n,-n,n), V('-Z','Y','X')),
+	W(n,-n,n) :
+		None,
+	},
 ]
 
-for W_new, V_new, W_check, V_check in examinations_list:
-	examine_solution(W_check, W_new, V_new)
-
-smt_list = [
+smt_orders = [
 	SMT_RY,
 	SMT_RY,
 	SMT_RY,
 ]
-for smt in smt_list:
-	examinations_list = \
-		[smt_conjugate_WV(smt, W_new, V_new, W_check, V_check, fixed_V_to = True) \
-			for W_new, V_new, W_check, V_check in examinations_list]
-	for W_new, V_new, W_check, V_check in examinations_list:
-		examine_solution(W_check, W_new, V_new)
 
-if ( no_pass > 0 ):
-	print("No pass:", no_pass)
+solver = FirstLayerCornerSolution()
+
+check_examine_solver(N, examinations_list, solver, examiner, smt_orders)

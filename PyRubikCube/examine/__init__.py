@@ -1,1 +1,1 @@
-__all__ = ["area", "examine"]
+__all__ = ["area", "examine", "transform", "solve"]

@@ -343,29 +343,29 @@ class LastLayerEdgeMidpointSolution(Solution):
 			shiftA_RotationNY,
 		}
 
-	def checkV(self):
-		n = self.problem.n
+	def checkV(self, problem):
+		n = problem.n
 
 		tableVs = {}
 
 		W_check_UF = W(0,n,-n)
-		W_now_UF = self.problem.state.locations_map[W_check_UF]
-		V_now_UF = self.problem.state.orientations_map[W_check_UF]
+		W_now_UF = problem.state.locations_map[W_check_UF]
+		V_now_UF = problem.state.orientations_map[W_check_UF]
 		tableVs[W_now_UF] = (factorY == V_now_UF[1])
 
 		W_check_UL = W(-n,n,0)
-		W_now_UL = self.problem.state.locations_map[W_check_UL]
-		V_now_UL = self.problem.state.orientations_map[W_check_UL]
+		W_now_UL = problem.state.locations_map[W_check_UL]
+		V_now_UL = problem.state.orientations_map[W_check_UL]
 		tableVs[W_now_UL] = (factorY == V_now_UL[1])
 
 		W_check_UB = W(0,n,n)
-		W_now_UB = self.problem.state.locations_map[W_check_UB]
-		V_now_UB = self.problem.state.orientations_map[W_check_UB]
+		W_now_UB = problem.state.locations_map[W_check_UB]
+		V_now_UB = problem.state.orientations_map[W_check_UB]
 		tableVs[W_now_UB] = (factorY == V_now_UB[1])
 
 		W_check_UR = W(n,n,0)
-		W_now_UR = self.problem.state.locations_map[W_check_UR]
-		V_now_UR = self.problem.state.orientations_map[W_check_UR]
+		W_now_UR = problem.state.locations_map[W_check_UR]
+		V_now_UR = problem.state.orientations_map[W_check_UR]
 		tableVs[W_now_UR] = (factorY == V_now_UR[1])
 
 		self.currentVs = tuple()
@@ -379,20 +379,20 @@ class LastLayerEdgeMidpointSolution(Solution):
 			check_pass = check_pass and tableVs[k]
 		return check_pass
 
-	def checkW(self):
-		n = self.problem.n
+	def checkW(self, problem):
+		n = problem.n
 
 		W_check_UF = W(0,n,-n)
-		W_now_UF = self.problem.state.locations_map[W_check_UF]
+		W_now_UF = problem.state.locations_map[W_check_UF]
 
 		W_check_UL = W(-n,n,0)
-		W_now_UL = self.problem.state.locations_map[W_check_UL]
+		W_now_UL = problem.state.locations_map[W_check_UL]
 
 		W_check_UB = W(0,n,n)
-		W_now_UB = self.problem.state.locations_map[W_check_UB]
+		W_now_UB = problem.state.locations_map[W_check_UB]
 
 		W_check_UR = W(n,n,0)
-		W_now_UR = self.problem.state.locations_map[W_check_UR]
+		W_now_UR = problem.state.locations_map[W_check_UR]
 
 		self.currentWs = tuple()
 		self.currentWs += ((W_check_UF, W_now_UF),)
@@ -405,34 +405,40 @@ class LastLayerEdgeMidpointSolution(Solution):
 			check_pass = check_pass and (w[0]==w[1])
 		return check_pass
 
-	def solveV(self):
-		n = self.problem.n
+	def solveV(self, problem):
+		n = problem.n
+		solutions_list = []
 		solutionsV_map = self.get_solutions_V(n)
-		while not self.checkV():
+		while not self.checkV(problem):
 			if not self.currentVs in solutionsV_map:
 				break
 			solutions = solutionsV_map[self.currentVs]
 			print("V keys:", self.currentVs)
 			print("V solutions:", solutions)
 			for t in solutions:
-				self.problem.state.transform(t)
-			self.solutions_list += solutions
+				problem.state.transform(t)
+			solutions_list += solutions
+		return solutions_list
 
-	def solveW(self):
-		n = self.problem.n
+	def solveW(self, problem):
+		n = problem.n
+		solutions_list = []
 		solutionsW_map = self.get_solutions_W(n)
-		while not self.checkW():
+		while not self.checkW(problem):
 			if not self.currentWs in solutionsW_map:
 				break
 			solutions = solutionsW_map[self.currentWs]
 			print("W keys:", self.currentWs)
 			print("W solutions:", solutions)
 			for t in solutions:
-				self.problem.state.transform(t)
-			self.solutions_list += solutions
+				problem.state.transform(t)
+			solutions_list += solutions
+		return solutions_list
 
-	def solve(self):
-		self.solveV()
-		self.solveW()
+	def solve(self, problem):
+		solutions = []
+		
+		solutions += self.solveV(problem)
+		solutions += self.solveW(problem)
 
-		return self.solutions_list
+		return solutions

@@ -1,15 +1,15 @@
 from PyRubikCube.base.symbol import *
-from PyRubikCube.examine.area import *
-from PyRubikCube.examine.examine import *
 from PyRubikCube.solve.problem import *
 from PyRubikCube.solve.solver import *
+from PyRubikCube.examine.area import *
+from PyRubikCube.examine.examine import *
 
 # problemn
 N = 3
 n = int(N/2)
 odd = (1 == N % 2)
 
-scramble_tlist = [
+scrambles = [
 	T("X+", 0),
 	T("Z+", 0),
 	T("Y-", 0),
@@ -19,18 +19,18 @@ scramble_tlist = [
 ]
 
 problem = Problem(N)
-problem.scramble(scramble_tlist)
+problem.scramble(scrambles)
 
 # solve
-s = Solver(problem)
-solutions_tlist = s.solve()
+solver = Solver()
+solutions = solver.solve(problem)
 print("solutions:")
-print(solutions_tlist)
+print(solutions)
 
 # examine
 state = gen_original_state(n, odd)
-for t in scramble_tlist: state.transform(t)
-for t in solutions_tlist: state.transform(t)
+for t in scrambles: state.transform(t)
+for t in solutions: state.transform(t)
 
 numeric_area_factory = NumericAreaFactory(n)
 numeric_area_all 		= 	numeric_area_factory.all()

@@ -93,8 +93,9 @@ class SecondLayerEdgeMidpointSolution(Solution):
 			t_push,
 		}
 
-	def solve(self):
-		n = self.problem.n
+	def solve(self, problem):
+		n = problem.n
+		solutions = []
 
 		solutionsW_map = self.get_solutions_W(n)
 		solutionsWV_map = self.get_solutions_WV(n)
@@ -105,6 +106,6 @@ class SecondLayerEdgeMidpointSolution(Solution):
 		]
 		W_check = W(n,0,-n)
 		V_check = V_XYZ
-		self.solve_smt(W_check, V_check, solutionsW_map, solutionsWV_map, smt_list)
+		solutions += self.solve_smt(problem, W_check, V_check, solutionsW_map, solutionsWV_map, smt_list)
 
-		return self.solutions_list
+		return solutions

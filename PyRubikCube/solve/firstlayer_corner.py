@@ -142,8 +142,9 @@ class FirstLayerCornerSolution(Solution):
 			tRDF_shift,
 		}
 
-	def solve(self):
-		n = self.problem.n
+	def solve(self, problem):
+		n = problem.n
+		solutions = []
 
 		solutionsW_map = self.get_solutions_W(n)
 		solutionsWV_map = self.get_solutions_WV(n)
@@ -154,6 +155,6 @@ class FirstLayerCornerSolution(Solution):
 		]
 		W_check = W(n,-n,-n)
 		V_check = V_XYZ
-		self.solve_smt(W_check, V_check, solutionsW_map, solutionsWV_map, smt_list)
+		solutions += self.solve_smt(problem, W_check, V_check, solutionsW_map, solutionsWV_map, smt_list)
 
-		return self.solutions_list
+		return solutions

@@ -1,12 +1,14 @@
 from PyRubikCube.base.symbol import *
-from PyRubikCube.examine.area import *
-from PyRubikCube.examine.examine import *
 from PyRubikCube.solve.problem import *
 from PyRubikCube.solve.lastlayer_edge_midpoint import *
+from PyRubikCube.examine.area import *
+from PyRubikCube.examine.examine import *
+from PyRubikCube.examine.solve import *
 
 N = 3
 n = int(N/2)
-odd = (1 == N % 2)
+
+solver_examiner = SolverExaminer()
 
 numeric_area_factory = NumericAreaFactory(n)
 numeric_area_all 		= 	numeric_area_factory.all()
@@ -96,36 +98,7 @@ locked_areas = Areas([
 
 examiner = Examiner([], [], locked_areas, dump_message = False)
 
-no_pass = 0;
-def examine_solution(WV_map):
-	global no_pass
-	global N, n, odd
-	global examiner
-
-	problem = Problem(N)
-	# problem.state.locations_map[W_check] = W_new
-	# problem.state.orientations_map[W_check] = V_new
-	# if not W_check == W_new:
-	# 	del problem.state.locations_map[W_new]
-	# 	del problem.state.orientations_map[W_new]
-	for w in WV_map:
-		problem.state.locations_map[w] = WV_map[w][0]
-		problem.state.orientations_map[w] = WV_map[w][1]
-
-	s = LastLayerEdgeMidpointSolution(problem)
-	solutions_tlist = s.solve()
-	print("solutions:")
-	print(solutions_tlist)
-
-	ok = examiner.test(problem.state)
-	print("total same:", examiner.same_count)
-	print("total shift:", examiner.shift_count)
-	print("total error:", examiner.error_count)
-	print("ok:", bool(ok))
-	print()
-
-	if not ok:
-		no_pass += 1
+solver = LastLayerEdgeMidpointSolution()
 
 examination_0000 = {
 	W(0,n,-n) :
@@ -226,7 +199,7 @@ examination_1100 = {
 }
 
 
-examinations_list = [
+examinations_V_list = [
 	examination_0000,
 	examination_1010,
 	examination_0101,
@@ -236,9 +209,8 @@ examinations_list = [
 	examination_1100,
 ]
 
-for e in examinations_list:
-	print(e)
-	examine_solution(e)
+for e in examinations_V_list:
+	solver_examiner.examine(N, e, solver, examiner)
 
 W_set = [
 	W(0,n,-n),
@@ -268,7 +240,7 @@ def gen_W_order_list(W_order):
 
 gen_W_order_list([])
 
-examinations_order_list = []
+examinations_W_list = []
 for W_order in W_order_list:
 	examination = {}
 	for i in range(len(W_set)):
@@ -276,11 +248,9 @@ for W_order in W_order_list:
 		smt = W_SMT_list[(W_order[i] - i) % len(W_set)]
 		V_new = smt.conjugate([V_XYZ])[0]
 		examination[W_set[i]] = (W_new, V_new)
-	examinations_order_list += [examination]
+	examinations_W_list += [examination]
 
-for e in examinations_order_list:
-	print(e)
-	examine_solution(e)
+for e in examinations_W_list:
+	solver_examiner.examine(N, e, solver, examiner)
 
-if ( no_pass > 0 ):
-	print("No pass:", no_pass)
+solver_examiner.output_results()

@@ -51,15 +51,16 @@ class CenterMidpointSolution(Solution):
 			[TYn, TYn],
 		}
 
-	def solve(self):
-		n = self.problem.n
+	def solve(self, problem):
+		n = problem.n
+		solutions = []
 
 		solutionsW_map = self.get_solutions_W(n)
 		smt_list = [
 			SMT_RZ
 		]
 		W_check = W(0,n,0)
-		self.solveW_smt(W_check, solutionsW_map, smt_list)
+		solutions += self.solveW_smt(problem, W_check, solutionsW_map, smt_list)
 
 		solutionsWV_map = self.get_solutions_WV(n)
 		smt_list = [
@@ -71,6 +72,6 @@ class CenterMidpointSolution(Solution):
 		]
 		W_check = W(0,n,0)
 		V_check = V_XYZ
-		self.solveWV_smt(W_check, V_check, solutionsWV_map, smt_list)
+		solutions += self.solveWV_smt(problem, W_check, V_check, solutionsWV_map, smt_list)
 
-		return self.solutions_list
+		return solutions

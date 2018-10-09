@@ -147,13 +147,14 @@ class LastLayerCornerSolution(Solution):
 			coverA_RotationY,
 		}
 	
-	def solve_step1(self):
-		n = self.problem.n
+	def solve_step1(self, problem):
+		n = problem.n
 
 		solutionsWV_map = self.get_solutions_step1_WV(n)
 		W_check = W(n,n,-n)
 		V_check = V_XYZ
-		self.solveWV(W_check, V_check, solutionsWV_map)
+		solutions = self.solveWV(problem, W_check, V_check, solutionsWV_map)
+		return solutions
 
 	def get_solutions_step2_WV(self, n):
 		coverA = lastlayer_corner_coverA(n)
@@ -219,33 +220,15 @@ class LastLayerCornerSolution(Solution):
 			coverA,
 		}
 
-	def solveWWV(self, W_check, W_goal, V_goal, solutionsWV_map):
-		if not W_check in self.problem.state.locations_map:
-			return
-		check_pass = False
-		while not check_pass:
-			W_now = self.problem.state.locations_map[W_check]
-			V_now = self.problem.state.orientations_map[W_check]
-			if ( W_goal == W_now and V_goal == V_now ):
-				check_pass = True
-			else:
-				if not ((W_now,V_now),(W_goal,V_goal)) in solutionsWV_map:
-					break
-				solutions = solutionsWV_map[((W_now,V_now),(W_goal,V_goal))]
-				print("WV key:", ((W_now,V_now),(W_goal,V_goal)))
-				print("WV solutions:", solutions)
-				for t in solutions:
-					self.problem.state.transform(t)
-				self.solutions_list += solutions
-
-	def solve_step2(self):
-		n = self.problem.n
+	def solve_step2(self, problem):
+		n = problem.n
 
 		solutionsWV_map = self.get_solutions_step2_WV(n)
 		W_check = W(n,n,n)
 		W_goal = W(-n,n,n)
 		V_goal = V('-Z','Y','X')
-		self.solveWWV(W_check, W_goal, V_goal, solutionsWV_map)
+		solutions = self.solveWWV(problem, W_check, W_goal, V_goal, solutionsWV_map)
+		return solutions
 
 	def get_solutions_step3_WV(self, n):
 		coverA = lastlayer_corner_coverA(n)
@@ -303,13 +286,14 @@ class LastLayerCornerSolution(Solution):
 			coverB_RotationNY + coverA,
 		}
 
-	def solve_step3(self):
-		n = self.problem.n
+	def solve_step3(self, problem):
+		n = problem.n
 
 		solutionsWV_map = self.get_solutions_step3_WV(n)
 		W_check = W(-n,n,-n)
 		V_check = V_XYZ
-		self.solveWV(W_check, V_check, solutionsWV_map)
+		solutions = self.solveWV(problem, W_check, V_check, solutionsWV_map)
+		return solutions
 
 	def get_solutions_step4_WV(self, n):
 		switch = lastlayer_corner_switch(n)
@@ -322,19 +306,21 @@ class LastLayerCornerSolution(Solution):
 			switch_Rotation2Y,
 		}
 
-	def solve_step4(self):
-		n = self.problem.n
+	def solve_step4(self, problem):
+		n = problem.n
 
 		solutionsWV_map = self.get_solutions_step4_WV(n)
 		W_check = W(n,n,n)
 		V_check = V_XYZ
-		self.solveWV(W_check, V_check, solutionsWV_map)
+		solutions = self.solveWV(problem, W_check, V_check, solutionsWV_map)
+		return solutions
 
-	def solve(self):
+	def solve(self, problem):
+		solutions = []
 
-		self.solve_step1()
-		self.solve_step2()
-		self.solve_step3()
-		self.solve_step4() # for n = 1, even
+		solutions += self.solve_step1(problem)
+		solutions += self.solve_step2(problem)
+		solutions += self.solve_step3(problem)
+		solutions += self.solve_step4(problem) # for n = 1, even
 
-		return self.solutions_list
+		return solutions

@@ -2,17 +2,17 @@ from .center_midpoint import *
 from .firstlayer_edge_midpoint import *
 
 class Solver:
-	def __init__(self, problem):
-		self.problem = problem
+	def __init__(self):
+		pass
 
-	def solve(self):
+	def solve(self, problem):
 		solutions = []
 
-		if self.problem.odd:
+		if problem.odd:
 			print("====CenterMidpointSolution====")
-			solutions += CenterMidpointSolution(self.problem).solve()
+			solutions += CenterMidpointSolution().solve(problem)
 		
 		print("====FirstLayerEdgeMidpointSolution====")
-		solutions += FirstLayerEdgeMidpointSolution(self.problem).solve()
+		solutions += FirstLayerEdgeMidpointSolution().solve(problem)
 
 		return solutions

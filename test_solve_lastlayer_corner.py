@@ -1,12 +1,14 @@
 from PyRubikCube.base.symbol import *
-from PyRubikCube.examine.area import *
-from PyRubikCube.examine.examine import *
 from PyRubikCube.solve.problem import *
 from PyRubikCube.solve.lastlayer_corner import *
+from PyRubikCube.examine.area import *
+from PyRubikCube.examine.examine import *
+from PyRubikCube.examine.solve import *
 
 N = 3
 n = int(N/2)
-odd = (1 == N % 2)
+
+solver_examiner = SolverExaminer()
 
 numeric_area_factory = NumericAreaFactory(n)
 numeric_area_all 		= 	numeric_area_factory.all()
@@ -62,32 +64,6 @@ numeric_area_edge_midpoint_RU	=	numeric_area_factory.edge_midpoint_RU()
 numeric_area_edge_midpoint_RD	=	numeric_area_factory.edge_midpoint_RD()
 numeric_area_edge_midpoint_LU	=	numeric_area_factory.edge_midpoint_LU()
 numeric_area_edge_midpoint_LD	=	numeric_area_factory.edge_midpoint_LD()
-
-no_pass = 0;
-def examine_solution(examiner, WV_map):
-	global no_pass
-	global N, n, odd
-	#global examiner
-
-	problem = Problem(N)
-	for w in WV_map:
-		problem.state.locations_map[w] = WV_map[w][0]
-		problem.state.orientations_map[w] = WV_map[w][1]
-
-	s = LastLayerCornerSolution(problem)
-	solutions_tlist = s.solve()
-	print("solutions:")
-	print(solutions_tlist)
-
-	ok = examiner.test(problem.state)
-	print("total same:", examiner.same_count)
-	print("total shift:", examiner.shift_count)
-	print("total error:", examiner.error_count)
-	print("ok:", bool(ok))
-	print()
-
-	if not ok:
-		no_pass += 1
 
 locked_areas = Areas([
 	numeric_area_inner,
@@ -224,10 +200,11 @@ examinations_list_step1 = [
 	},
 ]
 
+solver1 = LastLayerCornerSolution()
+
 # need to turn off step4
 for e in examinations_list_step1:
-	print(e)
-	examine_solution(examiner1, e)
+	solver_examiner.examine(N, e, solver1, examiner1)
 
 locked_areas2 = Areas([
 	numeric_area_inner,
@@ -318,10 +295,11 @@ examinations_list_step2 = [
 	},
 ]
 
+solver2 = LastLayerCornerSolution()
+
 # need to turn off step3, step4
 for e in examinations_list_step2:
-	print(e)
-	examine_solution(examiner2, e)
+	solver_examiner.examine(N, e, solver2, examiner2)
 
 examiner3 = examiner
 
@@ -354,9 +332,10 @@ examinations_list_step3 = [
 	},
 ]
 
+solver3 = LastLayerCornerSolution()
+
 for e in examinations_list_step3:
-	print(e)
-	examine_solution(examiner3, e)
+	solver_examiner.examine(N, e, solver3, examiner3)
 
 locked_areas3_even = Areas([
 	numeric_area_inner,
@@ -432,10 +411,11 @@ examinations_list_step3_even = [
 	},
 ]
 
+solver3_even = LastLayerCornerSolution()
+
 # need to turn off step4
 for e in examinations_list_step3_even:
-	print(e)
-	examine_solution(examiner3_even, e)
+	solver_examiner.examine(N, e, solver3_even, examiner3_even)
 
 locked_areas4 = Areas([
 	numeric_area_inner,
@@ -485,10 +465,10 @@ examinations_list_step4 = [
 	},
 ]
 
+solver4 = LastLayerCornerSolution()
+
 # test step4 only
 for e in examinations_list_step4:
-	print(e)
-	examine_solution(examiner4, e)
+	solver_examiner.examine(N, e, solver4, examiner4)
 
-if ( no_pass > 0 ):
-	print("No pass:", no_pass)
+solver_examiner.output_results()

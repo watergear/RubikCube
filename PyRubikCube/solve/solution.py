@@ -80,16 +80,16 @@ def conjugate_solutions_WV(solutions_map, smt):
 	return solutions_smt_map
 
 class Solution:
-	def __init__(self, problem):
-		self.problem = problem
-		self.solutions_list = []
+	def __init__(self):
+		pass
 
-	def solveW(self, W_check, solutionsW_map):
-		if not W_check in self.problem.state.locations_map:
-			return
+	def solveW(self, problem, W_check, solutionsW_map):
+		solutions_list = []
+		if not W_check in problem.state.locations_map:
+			return solutions_list
 		check_pass = False
 		while not check_pass:
-			W_now = self.problem.state.locations_map[W_check]
+			W_now = problem.state.locations_map[W_check]
 			if ( W_check == W_now ):
 				check_pass = True
 			else:
@@ -99,16 +99,18 @@ class Solution:
 				print("W key:", (W_now, W_check))
 				print("W solutions:", solutions)
 				for t in solutions:
-					self.problem.state.transform(t)
-				self.solutions_list += solutions
+					problem.state.transform(t)
+				solutions_list += solutions
+		return solutions_list
 
-	def solveWV(self, W_check, V_check, solutionsWV_map):
-		if not W_check in self.problem.state.locations_map:
-			return
+	def solveWV(self, problem, W_check, V_check, solutionsWV_map):
+		solutions_list = []
+		if not W_check in problem.state.locations_map:
+			return solutions_list
 		check_pass = False
 		while not check_pass:
-			W_now = self.problem.state.locations_map[W_check]
-			V_now = self.problem.state.orientations_map[W_check]
+			W_now = problem.state.locations_map[W_check]
+			V_now = problem.state.orientations_map[W_check]
 			if ( W_check == W_now and V_check == V_now ):
 				check_pass = True
 			else:
@@ -118,29 +120,57 @@ class Solution:
 				print("WV key:", ((W_now,V_now),(W_check,V_check)))
 				print("WV solutions:", solutions)
 				for t in solutions:
-					self.problem.state.transform(t)
-				self.solutions_list += solutions
+					problem.state.transform(t)
+				solutions_list += solutions
+		return solutions_list
 
-	def solveW_smt(self, W_check, solutionsW_map, smt_list):
-		self.solveW(W_check, solutionsW_map)
+	def solveWWV(self, problem, W_check, W_goal, V_goal, solutionsWV_map):
+		solutions_list = []
+		if not W_check in problem.state.locations_map:
+			return solutions_list
+		check_pass = False
+		while not check_pass:
+			W_now = problem.state.locations_map[W_check]
+			V_now = problem.state.orientations_map[W_check]
+			if ( W_goal == W_now and V_goal == V_now ):
+				check_pass = True
+			else:
+				if not ((W_now,V_now),(W_goal,V_goal)) in solutionsWV_map:
+					break
+				solutions = solutionsWV_map[((W_now,V_now),(W_goal,V_goal))]
+				print("WV key:", ((W_now,V_now),(W_goal,V_goal)))
+				print("WV solutions:", solutions)
+				for t in solutions:
+					problem.state.transform(t)
+				solutions_list += solutions
+		return solutions_list
+
+	def solveW_smt(self, problem, W_check, solutionsW_map, smt_list):
+		solutions_list = []
+		solutions_list += self.solveW(problem, W_check, solutionsW_map)
 		for smt in smt_list:
 			solutionsW_map = conjugate_solutions_W(solutionsW_map, smt)
 			W_check = smt.conjugate([W_check])[0]
-			self.solveW(W_check, solutionsW_map)
+			solutions_list += self.solveW(problem, W_check, solutionsW_map)
+		return solutions_list
 
-	def solveWV_smt(self, W_check, V_check, solutionsWV_map, smt_list):
-		self.solveWV(W_check, V_check, solutionsWV_map)
+	def solveWV_smt(self, problem, W_check, V_check, solutionsWV_map, smt_list):
+		solutions_list = []
+		solutions_list += self.solveWV(problem, W_check, V_check, solutionsWV_map)
 		for smt in smt_list:
 			solutionsWV_map = conjugate_solutions_WV(solutionsWV_map, smt)
 			W_check = smt.conjugate([W_check])[0]
-			self.solveWV(W_check, V_check, solutionsWV_map)
+			solutions_list += self.solveWV(problem, W_check, V_check, solutionsWV_map)
+		return solutions_list
 
-	def solve_smt(self, W_check, V_check, solutionsW_map, solutionsWV_map, smt_list):
-		self.solveW(W_check, solutionsW_map)
-		self.solveWV(W_check, V_check, solutionsWV_map)
+	def solve_smt(self, problem, W_check, V_check, solutionsW_map, solutionsWV_map, smt_list):
+		solutions_list = []
+		solutions_list += self.solveW(problem, W_check, solutionsW_map)
+		solutions_list += self.solveWV(problem, W_check, V_check, solutionsWV_map)
 		for smt in smt_list:
 			solutionsW_map = conjugate_solutions_W(solutionsW_map, smt)
 			solutionsWV_map = conjugate_solutions_WV(solutionsWV_map, smt)
 			W_check = smt.conjugate([W_check])[0]
-			self.solveW(W_check, solutionsW_map)
-			self.solveWV(W_check, V_check, solutionsWV_map)
+			solutions_list += self.solveW(problem, W_check, solutionsW_map)
+			solutions_list += self.solveWV(problem, W_check, V_check, solutionsWV_map)
+		return solutions_list
