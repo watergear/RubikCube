@@ -1,6 +1,6 @@
 from PyRubikCube.base.symbol import *
 from PyRubikCube.solve.problem import *
-from PyRubikCube.solve.solver import *
+from PyRubikCube.solve.rubik_solver import *
 from PyRubikCube.examine.area import *
 from PyRubikCube.examine.examine import *
 
@@ -22,7 +22,7 @@ problem = Problem(N)
 problem.scramble(scrambles)
 
 # solve
-solver = Solver()
+solver = RubikSolver()
 solutions = solver.solve(problem)
 print("solutions:")
 print(solutions)

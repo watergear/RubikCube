@@ -1,6 +1,6 @@
 from ..base.symbol import *
 
-from .solution import *
+from .solver import *
 
 TX0		= T("X+", 0)
 TX0_	= T("X-", 0)
@@ -9,7 +9,7 @@ TY0_	= T("Y-", 0)
 TZ0		= T("Z+", 0)
 TZ0_	= T("Z-", 0)
 
-class CenterMidpointSolution(Solution):
+class CenterMidpointSolver(Solver):
 	def get_solutions_W(self, n):
 		return {
 			( W(0,0,n),

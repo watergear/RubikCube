@@ -200,7 +200,7 @@ examinations_list_step1 = [
 	},
 ]
 
-solver1 = LastLayerCornerSolution()
+solver1 = LastLayerCornerSolver()
 
 # need to turn off step4
 for e in examinations_list_step1:
@@ -295,7 +295,7 @@ examinations_list_step2 = [
 	},
 ]
 
-solver2 = LastLayerCornerSolution()
+solver2 = LastLayerCornerSolver()
 
 # need to turn off step3, step4
 for e in examinations_list_step2:
@@ -332,7 +332,7 @@ examinations_list_step3 = [
 	},
 ]
 
-solver3 = LastLayerCornerSolution()
+solver3 = LastLayerCornerSolver()
 
 for e in examinations_list_step3:
 	solver_examiner.examine(N, e, solver3, examiner3)
@@ -411,7 +411,7 @@ examinations_list_step3_even = [
 	},
 ]
 
-solver3_even = LastLayerCornerSolution()
+solver3_even = LastLayerCornerSolver()
 
 # need to turn off step4
 for e in examinations_list_step3_even:
@@ -465,7 +465,7 @@ examinations_list_step4 = [
 	},
 ]
 
-solver4 = LastLayerCornerSolution()
+solver4 = LastLayerCornerSolver()
 
 # test step4 only
 for e in examinations_list_step4:

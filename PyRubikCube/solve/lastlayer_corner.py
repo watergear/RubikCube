@@ -1,6 +1,6 @@
 from ..base.symbol import *
 
-from .solution import *
+from .solver import *
 
 def lastlayer_corner_coverA(n):
 	return [
@@ -76,7 +76,7 @@ def lastlayer_corner_switch(n):
 		T("Z+", -n),
 	]
 
-class LastLayerCornerSolution(Solution):
+class LastLayerCornerSolver(Solver):
 	def get_solutions_step1_WV(self, n):
 		coverA = lastlayer_corner_coverA(n)
 		coverB = lastlayer_corner_coverB(n)

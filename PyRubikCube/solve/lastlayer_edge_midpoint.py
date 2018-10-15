@@ -1,6 +1,6 @@
 from ..base.symbol import *
 
-from .solution import *
+from .solver import *
 
 def lastlayer_edge_midpoint_coverA(n):
 	return [
@@ -65,7 +65,7 @@ def lastlayer_edge_midpoint_switch(n):
 		T("Z+", -n),
 	]
 
-class LastLayerEdgeMidpointSolution(Solution):
+class LastLayerEdgeMidpointSolver(Solver):
 	def get_solutions_V(self, n):
 		coverA = lastlayer_edge_midpoint_coverA(n)
 		coverB = lastlayer_edge_midpoint_coverB(n)

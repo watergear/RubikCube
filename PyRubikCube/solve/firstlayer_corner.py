@@ -1,6 +1,6 @@
 from ..base.symbol import *
 
-from .solution import *
+from .solver import *
 
 def firstlayer_corner_DRB_W(n):
 	return [
@@ -36,7 +36,7 @@ def firstlayer_corner_RDF_shift(n):
 		T("Y+", n),
 	]
 
-class FirstLayerCornerSolution(Solution):
+class FirstLayerCornerSolver(Solver):
 	def get_solutions_W(self, n):
 		tDRB = firstlayer_corner_DRB_W(n)
 		tDRB_RotationY = smt_conjugate_transforms(SMT_RY, tDRB)

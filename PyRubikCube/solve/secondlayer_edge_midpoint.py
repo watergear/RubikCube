@@ -1,6 +1,6 @@
 from ..base.symbol import *
 
-from .solution import *
+from .solver import *
 
 def secondlayer_edge_midpoint_push(n):
 	return [
@@ -18,7 +18,7 @@ def secondlayer_edge_midpoint_push(n):
 def secondlayer_edge_midpoint_pop(n):
 	return inverse_transforms(secondlayer_edge_midpoint_push(n))
 
-class SecondLayerEdgeMidpointSolution(Solution):
+class SecondLayerEdgeMidpointSolver(Solver):
 	def get_solutions_W(self, n):
 		t_pop = secondlayer_edge_midpoint_pop(n)
 		t_pop_RotationY = smt_conjugate_transforms(SMT_RY, t_pop)

@@ -98,7 +98,7 @@ locked_areas = Areas([
 
 examiner = Examiner([], [], locked_areas, dump_message = False)
 
-solver = LastLayerEdgeMidpointSolution()
+solver = LastLayerEdgeMidpointSolver()
 
 examination_0000 = {
 	W(0,n,-n) :

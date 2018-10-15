@@ -1,6 +1,6 @@
 from ..base.symbol import *
 
-from .solution import *
+from .solver import *
 
 def firstlayer_edge_midpoint_FU_W(n):
 	return [
@@ -18,7 +18,7 @@ def firstlayer_edge_midpoint_RF_WV(n):
 		T("Z+", -n),
 	]
 
-class FirstLayerEdgeMidpointSolution(Solution):
+class FirstLayerEdgeMidpointSolver(Solver):
 	def get_solutions_W(self, n):
 		tFU = firstlayer_edge_midpoint_FU_W(n)
 		tFU_RotationY = smt_conjugate_transforms(SMT_RY, tFU)

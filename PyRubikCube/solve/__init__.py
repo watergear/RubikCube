@@ -1,1 +1,1 @@
-__all__ = ["problem", "solution", "solver", "center_midpoint"]
+__all__ = ["problem", "solver", "rubik_solver", "center_midpoint", "firstlayer_edge_midpoint", "firstlayer_corner", "secondlayer_edge_midpoint", "lastlayer_edge_midpoint", "lastlayer_corner"]

@@ -1,7 +1,7 @@
 from ..base.symbol import *
 from ..base.state import *
 from ..solve.problem import *
-from ..solve.solution import *
+from ..solve.solver import *
 from .examine import *
 
 def gen_problem(N, WV_toChange, WV_toRemove = None):

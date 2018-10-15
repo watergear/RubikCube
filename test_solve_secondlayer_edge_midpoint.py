@@ -184,6 +184,6 @@ smt_orders = [
 	SMT_RY,
 ]
 
-solver = SecondLayerEdgeMidpointSolution()
+solver = SecondLayerEdgeMidpointSolver()
 
 check_examine_solver(N, examinations_list, solver, examiner, smt_orders)
