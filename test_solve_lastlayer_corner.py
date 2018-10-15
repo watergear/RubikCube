@@ -200,9 +200,12 @@ examinations_list_step1 = [
 	},
 ]
 
-solver1 = LastLayerCornerSolver()
+class LastLayerCornerSolver1(LastLayerCornerSolver):
+	# need to turn off step4
+	def solve(self, problem):
+		return self.solve_step1(problem)
+solver1 = LastLayerCornerSolver1()
 
-# need to turn off step4
 for e in examinations_list_step1:
 	solver_examiner.examine(N, e, solver1, examiner1)
 
@@ -295,9 +298,12 @@ examinations_list_step2 = [
 	},
 ]
 
-solver2 = LastLayerCornerSolver()
+class LastLayerCornerSolver2(LastLayerCornerSolver):
+	# need to turn off step3, step4
+	def solve(self, problem):
+		return self.solve_step2(problem)
+solver2 = LastLayerCornerSolver2()
 
-# need to turn off step3, step4
 for e in examinations_list_step2:
 	solver_examiner.examine(N, e, solver2, examiner2)
 
@@ -332,7 +338,10 @@ examinations_list_step3 = [
 	},
 ]
 
-solver3 = LastLayerCornerSolver()
+class LastLayerCornerSolver3(LastLayerCornerSolver):
+	def solve(self, problem):
+		return self.solve_step3(problem)
+solver3 = LastLayerCornerSolver3()
 
 for e in examinations_list_step3:
 	solver_examiner.examine(N, e, solver3, examiner3)
@@ -411,9 +420,12 @@ examinations_list_step3_even = [
 	},
 ]
 
-solver3_even = LastLayerCornerSolver()
+class LastLayerCornerSolver3_even(LastLayerCornerSolver):
+	# need to turn off step4
+	def solve(self, problem):
+		return self.solve_step3(problem)
+solver3_even = LastLayerCornerSolver3_even()
 
-# need to turn off step4
 for e in examinations_list_step3_even:
 	solver_examiner.examine(N, e, solver3_even, examiner3_even)
 
@@ -465,9 +477,12 @@ examinations_list_step4 = [
 	},
 ]
 
-solver4 = LastLayerCornerSolver()
+class LastLayerCornerSolver4(LastLayerCornerSolver):
+	# test step4 only
+	def solve(self, problem):
+		return self.solve_step4(problem)
+solver4 = LastLayerCornerSolver4()
 
-# test step4 only
 for e in examinations_list_step4:
 	solver_examiner.examine(N, e, solver4, examiner4)
 
