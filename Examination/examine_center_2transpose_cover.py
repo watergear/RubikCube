@@ -1,11 +1,12 @@
+if __name__ == "__main__":
+	import init
+
 from PyRubikCube.base.symbol import *
 from PyRubikCube.examine.area import *
 from PyRubikCube.examine.examine import *
 from PyRubikCube.examine.transform import *
 
 center_i_j = [
-	T("Y+", "n"),
-
 	T("Y-", "n"),
 	T("X-", "i"),
 	T("X-", "j"),
@@ -17,33 +18,15 @@ center_i_j = [
 	T("X-", "j"),
 	T("Y+", "n"),
 	T("X+", "j"),
-	T("Y+", "n"),
-
-	T("Y-", "n"),
-
-	T("Y-", "n"),
-	T("X-", "i"),
-	T("X-", "j"),
-	T("Y-", "n"),
-	T("X+", "j"),
-	T("Y+", "n"),
-	T("X+", "i"),
-	T("Y-", "n"),
-	T("X-", "j"),
-	T("Y+", "n"),
-	T("X+", "j"),
-	T("Y+", "n"),
 ]
 
 src_vectors = [
-	(W('i', 'n', 'j'),		V('X', 'Y', 'Z')),
-	(W('j', 'n', '-i'),		V('X', 'Y', 'Z')),
-	(W('-j', 'n', 'i'),		V('X', 'Y', 'Z')),
+	(W('i', 'n', 'j'),	V('X', 'Y', 'Z')),
+	(W('i', 'j', '-n'),	V('X', 'Y', 'Z')),
 ]
 dest_vectors = [
-	(W('j', 'n', '-i'),		V('Z', 'Y', '-X')),
-	(W('-j', 'n', 'i'),		V('-X', 'Y', '-Z')),
-	(W('i', 'n', 'j'),		V('Z', 'Y', '-X')),
+	(W('i', 'j', '-n'),	V('X', 'Z', '-Y')),
+	(W('i', 'n', 'j'),	V('X', '-Z', 'Y')),
 ]
 
 locked_areas = Areas([
@@ -53,19 +36,7 @@ locked_areas = Areas([
 	area_center_L,
 	area_center_R,
 	area_center_D,
-	area_center_U,
-	area_edge_UB,
-	area_edge_UF,
-	area_edge_DB,
-	area_edge_DF,
-	area_edge_RB,
-	area_edge_RF,
-	area_edge_LB,
-	area_edge_LF,
-	area_edge_RU,
-	area_edge_RD,
-	area_edge_LU,
-	area_edge_LD,
+	area_center_U_around,
 ])
 
 examiner = Examiner(src_vectors, dest_vectors, locked_areas, dump_message = True)

@@ -1,49 +1,42 @@
+﻿if __name__ == "__main__":
+	import init
+
 from PyRubikCube.base.symbol import *
 from PyRubikCube.examine.area import *
 from PyRubikCube.examine.examine import *
 from PyRubikCube.examine.transform import *
 
-center_i_i = [
+corner_edge_transpose = [
+	T("X+", "n"),
+	T("Z-", "-n"),
 	T("Y-", "n"),
-
+	T("Z+", "-n"),
 	T("Y+", "n"),
-	T("X-", "i"),
-	T("X-", "-i"),
+	T("Z-", "-n"),
 	T("Y+", "n"),
-	T("X+", "-i"),
+	T("Z+", "-n"),
+	T("Z+", "-n"),
+	T("X-", "n"),
+	T("Z-", "-n"),
+	T("Y+", "n"),
+	T("Z-", "-n"),
 	T("Y-", "n"),
-	T("X+", "i"),
-	T("Y+", "n"),
-	T("X-", "-i"),
-	T("Y-", "n"),
-	T("X+", "-i"),
-	T("Y-", "n"),
-
-	T("Y+", "n"),
-
-	T("Y+", "n"),
-	T("X-", "i"),
-	T("X-", "-i"),
-	T("Y+", "n"),
-	T("X+", "-i"),
-	T("Y-", "n"),
-	T("X+", "i"),
-	T("Y+", "n"),
-	T("X-", "-i"),
-	T("Y-", "n"),
-	T("X+", "-i"),
-	T("Y-", "n"),
+	T("Z+", "-n"),
 ]
 
 src_vectors = [
-	(W('i', 'n', 'i'),		V('X', 'Y', 'Z')),
-	(W('-i', 'n', 'i'),		V('X', 'Y', 'Z')),
-	(W('i', 'n', '-i'),		V('X', 'Y', 'Z')),
+	(W('n', 'n', '-n'),		V('X', 'Y', 'Z')),
+	(W('-n', 'n', '-n'),	V('X', 'Y', 'Z')),
+
+	(W('c', 'n', 'n'),		V('X', 'Y', 'Z')),
+	(W('c', 'n', '-n'),		V('X', 'Y', 'Z')),
 ]
 dest_vectors = [
-	(W('-i', 'n', 'i'),		V('-Z', 'Y', 'X')),
-	(W('i', 'n', '-i'),		V('-X', 'Y', '-Z')),
-	(W('i', 'n', 'i'),		V('-Z', 'Y', 'X')),
+	(W('-n', 'n', '-n'),	V('Z', 'Y', '-X')),
+	(W('n', 'n', '-n'),		V('-Z', 'Y', 'X')),
+
+	(W('-c', 'n', '-n'),	V('-X', 'Y', '-Z')),
+	(W('-c', 'n', 'n'),		V('-X', 'Y', '-Z')),
 ]
 
 locked_areas = Areas([
@@ -53,7 +46,7 @@ locked_areas = Areas([
 	area_center_L,
 	area_center_R,
 	area_center_D,
-	area_center_U,
+	area_center_U_around,
 	area_edge_UB,
 	area_edge_UF,
 	area_edge_DB,
@@ -66,11 +59,18 @@ locked_areas = Areas([
 	area_edge_RD,
 	area_edge_LU,
 	area_edge_LD,
+	area_corner_LDF,
+	area_corner_LDB,
+	area_corner_LUF,
+	area_corner_LUB,
+	area_corner_RDF,
+	area_corner_RDB,
+	area_corner_RUF,
+	area_corner_RUB,
 ])
 
-
 examiner = Examiner(src_vectors, dest_vectors, locked_areas, dump_message = True)
-ok = examiner.test(gen_transform_state(center_i_i))
+ok = examiner.test(gen_transform_state(corner_edge_transpose))
 print("total same:", examiner.same_count)
 print("total shift:", examiner.shift_count)
 print("total error:", examiner.error_count)

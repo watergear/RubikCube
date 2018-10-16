@@ -1,4 +1,7 @@
-﻿from PyRubikCube.base.symbol import *
+﻿if __name__ == "__main__":
+	import init
+
+from PyRubikCube.base.symbol import *
 from PyRubikCube.examine.area import *
 from PyRubikCube.examine.examine import *
 from PyRubikCube.examine.transform import *

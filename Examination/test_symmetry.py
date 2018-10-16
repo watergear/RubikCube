@@ -1,3 +1,6 @@
+if __name__ == "__main__":
+	import init
+
 from PyRubikCube.base.symbol import *
 
 MirrorX			= SMT("||", 	"X")
