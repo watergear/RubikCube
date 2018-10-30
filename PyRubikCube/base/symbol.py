@@ -1,10 +1,13 @@
-from .index import Index,NumericIndex
+from .index import Index,NoneIndex,NumericIndex
 from .factor import Factor
 from .transform import Transform,CW,CCW
 from .symmetry import Symmetry,mapSymmetrySymbol
 
-def I(indexName):
-	if ( type(indexName) == int ):
+def I(indexName = None):
+	if indexName is None:
+		return NoneIndex()
+
+	if type(indexName) == int:
 		return NumericIndex(indexName)
 
 	if '+' == indexName[0]:
@@ -17,7 +20,7 @@ def F(factorName):
 	sign = 1 if not '-' == factorName[0] else -1
 	return Factor(factorName[-1], sign)
 
-def T(factorName, indexName):
+def T(factorName, indexName = None):
 	factor = Factor(factorName[0], 1)
 	clockwise = CW if not '-' == factorName[-1] else CCW
 	index = I(indexName)

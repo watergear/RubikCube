@@ -47,5 +47,8 @@ class Index:
 			return "-" + self.name
 		return self.name
 
+class NoneIndex(Index):
+	pass
+
 class NumericIndex(int):
 	pass

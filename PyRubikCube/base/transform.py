@@ -1,3 +1,4 @@
+from .index import *
 from .factor import Factor
 
 factorX = Factor('X', 1)
@@ -110,6 +111,8 @@ class Transform:
 		return mat_mul(v, self.matrix)
 
 	def is_active(self, indexes):
+		if type(self.index) == NoneIndex:
+			return True
 		index = vec_mul(indexes, self.factor)
 		return self.index == index
 

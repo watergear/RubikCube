@@ -8,3 +8,8 @@ def gen_transform_state(transforms, otherwise=True):
 	for t in transforms:
 		state.transform(t)
 	return state
+
+def transform_wv(transforms, wv):
+	for t in transforms:
+		wv = t.transform(wv)
+	return wv

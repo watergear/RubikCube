@@ -3,6 +3,7 @@ from ..base.state import *
 from ..solve.problem import *
 from ..solve.solver import *
 from .examine import *
+from .transform import *
 
 def gen_problem(N, WV_toChange, WV_toRemove = None):
 	problem = Problem(N)
@@ -82,3 +83,39 @@ def check_examine_solver(N, examinations, solver, examiner, smt_orders = []):
 	for e in examinations:
 		solver_examiner.examine(N, e, solver, examiner, smt_orders)
 	solver_examiner.output_results()
+
+def conjugate_examination(wA, tA, tB, tS, sA = False, sB = True, sC = True):
+	wvA = (wA, V_XYZ)
+	wvB = transform_wv(tA, wvA)
+	wvC = transform_wv(tB, wvB)
+	tC = inverse_transforms(tA+tB)
+	tS_ = inverse_transforms(tS)
+
+	wvA_s = transform_wv(tS, wvA) if sA else wvA
+
+	wA2 = wvA_s[0]
+	tA2 = \
+		(tS_ if sA else []) \
+		+ tA \
+		+ (tS if sB else [])
+	wvA2_to = transform_wv(tA2, (wA2, V_XYZ))
+
+	wB2 = wvA2_to[0]
+	tB2 = \
+		(tS_ if sB else []) \
+		+ tB \
+		+ (tS if sC else [])
+	wvB2_to = transform_wv(tB2, (wB2, V_XYZ))
+
+	wC2 = wvB2_to[0]
+	tC2 = \
+		(tS_ if sC else []) \
+		+ tC \
+		+ (tS if sA else [])
+	wvC2_to = transform_wv(tC2, (wC2, V_XYZ))
+
+	return {
+		wA2 : wvA2_to,
+		wB2 : wvB2_to,
+		wC2 : wvC2_to,
+	}
