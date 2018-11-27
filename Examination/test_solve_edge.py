@@ -97,76 +97,66 @@ def gen_examinations(n, i):
 
 	I = NumericIndex(i)
 	N = NumericIndex(n)
-	X = Factor('X', 1)
-	Y = Factor('Y', 1)
-	Z = Factor('Z', 1)
 	
-	wA1 = (I,N,-N)
+	wA = (I,N,-N)
+
 	tA1 = [T('X-')]
 	tB1 = [T('X+'),T('Y+'),T('Y+')]
 
-	wA2 = (I,N,-N)
 	tA2 = [T('Y+'),T('Y+')]
 	tB2 = [T('Y+'),T('Y+'),T('X-')]
 
 	return [
 		# on UB edge
-		conjugate_examination(wA1, tA1, tB1, []),
-		conjugate_examination(wA2, tA2, tB2, []),
+		conjugate_examination(wA, tA1, tB1, []),
+		conjugate_examination(wA, tA2, tB2, []),
 
 		# on LB edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z-')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z-')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z-')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z-')]),
 
 		# on RB edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z+')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z+')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z+')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z+')]),
 
 		# on DB edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z+'),T('Z+')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z+'),T('Z+')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z+'),T('Z+')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z+'),T('Z+')]),
 
 		# on LU edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z-'),T('X+')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z-'),T('X+')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z-'),T('X+')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z-'),T('X+')]),
 
 		# on RU edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z+'),T('X+')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z+'),T('X+')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z+'),T('X+')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z+'),T('X+')]),
 
 		# on LD edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z-'),T('X-')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z-'),T('X-')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z-'),T('X-')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z-'),T('X-')]),
 
 		# on RD edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z+'),T('X-')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z+'),T('X-')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z+'),T('X-')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z+'),T('X-')]),
 
 		# on LF edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z-'),T('X+'),T('X+')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z-'),T('X+'),T('X+')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z-'),T('X+'),T('X+')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z-'),T('X+'),T('X+')]),
 
 		# on RF edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z+'),T('X+'),T('X+')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z+'),T('X+'),T('X+')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z+'),T('X+'),T('X+')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z+'),T('X+'),T('X+')]),
 
 		# on DF edge
-		conjugate_examination(wA1, tA1, tB1, [T('Z+'),T('Z+'),T('Y+'),T('Y+')]),
-		conjugate_examination(wA2, tA2, tB2, [T('Z+'),T('Z+'),T('Y+'),T('Y+')]),
+		conjugate_examination(wA, tA1, tB1, [T('Z+'),T('Z+'),T('Y+'),T('Y+')]),
+		conjugate_examination(wA, tA2, tB2, [T('Z+'),T('Z+'),T('Y+'),T('Y+')]),
 
 		# on UF edge
-		# {
-		# (I,N,-N) :
-		# 	((I,N,-N), V_XYZ),
-		# },
 		{
 		(I,N,-N) :
-			((-I,N,-N), (-X,-Z,-Y)),
-		(-I,N,-N) :
-			((N,N,I), (Y,-Z,-X)),
-		(N,N,I) :
-			((I,N,-N), (Z,Y,-X)),
-		}
+			((I,N,-N), V_XYZ),
+		},
+		conjugate_examination(wA, [T('X-'),T('Y+'),T('Y+')], [T('X-'),T('Y-')], []),
 	]
 
 examinations_list = []

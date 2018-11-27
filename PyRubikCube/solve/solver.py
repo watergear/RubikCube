@@ -79,6 +79,12 @@ def conjugate_solutions_WV(solutions_map, smt):
 
 	return solutions_smt_map
 
+def conjugate_check_solutions_W(Ws_check, solutionsWs_map, smt_list):
+	for smt in smt_list:
+		Ws_check = [smt.conjugate([W_check])[0] for W_check in Ws_check]
+		solutionsWs_map = [conjugate_solutions_W(solutionsW_map, smt) for solutionsW_map in solutionsWs_map]
+	return Ws_check, solutionsWs_map
+
 class Solver:
 	def __init__(self):
 		pass
@@ -173,4 +179,14 @@ class Solver:
 			W_check = smt.conjugate([W_check])[0]
 			solutions_list += self.solveW(problem, W_check, solutionsW_map)
 			solutions_list += self.solveWV(problem, W_check, V_check, solutionsWV_map)
+		return solutions_list
+
+	def solveWs_smt(self, problem, Ws_check, solutionsWs_map, smt_list):
+		solutions_list = []
+		for W_check, solutionsW_map in zip(Ws_check, solutionsWs_map):
+			solutions_list += self.solveW(problem, W_check, solutionsW_map)
+		for smt in smt_list:
+			Ws_check, solutionsWs_map = conjugate_check_solutions_W(Ws_check, solutionsWs_map, [smt])
+			for W_check, solutionsW_map in zip(Ws_check, solutionsWs_map):
+				solutions_list += self.solveW(problem, W_check, solutionsW_map)
 		return solutions_list

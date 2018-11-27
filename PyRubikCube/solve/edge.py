@@ -199,9 +199,9 @@ class EdgeSolver(Solver):
 			tEdgeInverse_ObliqueNX,
 
 			# on UF edge, shift RU edge
-			# ( W(i,n,-n),
-			# 	W(i,n,-n) ) :
-			# [],
+			( W(i,n,-n),
+				W(i,n,-n) ) :
+			[],
 
 			( W(-i,n,-n),
 				W(i,n,-n) ) :
@@ -211,22 +211,6 @@ class EdgeSolver(Solver):
 			[T("Z+", n)] +
 			[T("X+", n)],
 		}
-
-	def conjugate_check_solutions_W(self, Ws_check, solutionsWs_map, smt_list):
-		for smt in smt_list:
-			Ws_check = [smt.conjugate([W_check])[0] for W_check in Ws_check]
-			solutionsWs_map = [conjugate_solutions_W(solutionsW_map, smt) for solutionsW_map in solutionsWs_map]
-		return Ws_check, solutionsWs_map
-
-	def solveWs_smt(self, problem, Ws_check, solutionsWs_map, smt_list):
-		solutions_list = []
-		for W_check, solutionsW_map in zip(Ws_check, solutionsWs_map):
-			solutions_list += self.solveW(problem, W_check, solutionsW_map)
-		for smt in smt_list:
-			Ws_check, solutionsWs_map = self.conjugate_check_solutions_W(Ws_check, solutionsWs_map, [smt])
-			for W_check, solutionsW_map in zip(Ws_check, solutionsWs_map):
-				solutions_list += self.solveW(problem, W_check, solutionsW_map)
-		return solutions_list
 
 	def solve(self, problem):
 		n = problem.n
@@ -243,7 +227,7 @@ class EdgeSolver(Solver):
 		smt_init_list = [
 			SMT_RX,  # UF,RU -> DF,RF
 		]
-		Ws_check, solutionsWs_map = self.conjugate_check_solutions_W(Ws_check, solutionsWs_map, smt_init_list)
+		Ws_check, solutionsWs_map = conjugate_check_solutions_W(Ws_check, solutionsWs_map, smt_init_list)
 
 		smt_list = [
 			SMT_RY,  # DF,RF -> RD,RB

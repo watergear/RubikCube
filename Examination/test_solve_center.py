@@ -83,221 +83,53 @@ def gen_examinations(n, i, j):
 	if 0 == i and 0 == j:
 		return []
 	
-	sign = 1 if i == j else -1
-	
 	I = NumericIndex(i)
 	J = NumericIndex(j)
 	N = NumericIndex(n)
-	SI = I * sign
-	SJ = J * sign
-	
-	X = Factor('X', 1)
-	Y = Factor('Y', 1)
-	Z = Factor('Z', 1)
-	SX = X * sign
-	SY = Y * sign
-	SZ = Z * sign
-	
+
+	wA = (I,J,-N)
+	tA = [T('X-')]
+	tB = [T('Y'+('-' if i == j else '+'))]
+
 	return [
 		# on U face
-		{
-		(I,J,-N) :
-			((I,N,J), (X,-Z,Y)),
-		(I,N,J) :
-			((SJ,N,-SI), (SZ,Y,-SX)),
-		(SJ,N,-SI) :
-			((I,J,-N), (-SZ,SX,-Y)),
-		},
-		{
-		(I,J,-N) :
-			((J,N,-I), (Y,-Z,-X)),
-		(J,N,-I) :
-			((-SI,N,-SJ), (SZ,Y,-SX)),
-		(-SI,N,-SJ):
-			((I,J,-N), (-SX,-SZ,-Y)),
-		},
-		{
-		(I,J,-N) :
-			((-I,N,-J), (-X,-Z,-Y)),
-		(-I,N,-J) :
-			((-SJ,N,SI), (SZ,Y,-SX)),
-		(-SJ,N,SI) :
-			((I,J,-N), (SZ,-SX,-Y)),
-		},
-		{
-		(I,J,-N) :
-			((-J,N,I), (-Y,-Z,X)),
-		(-J,N,I) :
-			((SI,N,SJ), (SZ,Y,-SX)),
-		(SI,N,SJ) :
-			((I,J,-N), (SX,SZ,-Y)),
-		},
+		conjugate_examination(wA, tA, tB, [] + []),
+		conjugate_examination(wA, tA, tB, [] + [T('Y-')]),
+		conjugate_examination(wA, tA, tB, [] + [T('Y-'),T('Y-')]),
+		conjugate_examination(wA, tA, tB, [] + [T('Y+')]),
 
 		# on R face
-		{
-		(I,J,-N) :
-			((N,-I,J), (-Z,-X,Y)),
-		(N,-I,J) :
-			((N,-SJ,-SI), (X,-SZ,SY)),
-		(N,-SJ,-SI) :
-			((I,J,-N), (-SZ,-SY,-X)),
-		},
-		{
-		(I,J,-N) :
-			((N,-J,-I), (-Z,-Y,-X)),
-		(N,-J,-I) :
-			((N,SI,-SJ), (X,-SZ,SY)),
-		(N,SI,-SJ) :
-			((I,J,-N), (SY,-SZ,-X)),
-		},
-		{
-		(I,J,-N) :
-			((N,I,-J), (-Z,X,-Y)),
-		(N,I,-J) :
-			((N,SJ,SI), (X,-SZ,SY)),
-		(N,SJ,SI) :
-			((I,J,-N), (SZ,SY,-X)),
-		},
-		{
-		(I,J,-N) :
-			((N,J,I), (-Z,Y,X)),
-		(N,J,I) :
-			((N,-SI,SJ), (X,-SZ,SY)),
-		(N,-SI,SJ):
-			((I,J,-N), (-SY,SZ,-X)),
-		},
+		conjugate_examination(wA, tA, tB, [T('Z+')] + []),
+		conjugate_examination(wA, tA, tB, [T('Z+')] + [T('X-')]),
+		conjugate_examination(wA, tA, tB, [T('Z+')] + [T('X-'),T('X-')]),
+		conjugate_examination(wA, tA, tB, [T('Z+')] + [T('X+')]),
 
 		# on L face
-		{
-		(I,J,-N) :
-			((-N,I,J), (Z,X,Y)),
-		(-N,I,J) :
-			((-N,SJ,-SI), (X,SZ,-SY)),
-		(-N,SJ,-SI) :
-			((I,J,-N), (-SZ,SY,X)),
-		},
-		{
-		(I,J,-N) :
-			((-N,-J,I), (Z,-Y,X)),
-		(-N,-J,I) :
-			((-N,SI,SJ), (X,SZ,-SY)),
-		(-N,SI,SJ) :
-			((I,J,-N), (SY,SZ,X)),
-		},
-		{
-		(I,J,-N) :
-			((-N,-I,-J), (Z,-X,-Y)),
-		(-N,-I,-J) :
-			((-N,-SJ,SI), (X,SZ,-SY)),
-		(-N,-SJ,SI) :
-			((I,J,-N), (SZ,-SY,X)),
-		},
-		{
-		(I,J,-N) :
-			((-N,J,-I), (Z,Y,-X)),
-		(-N,J,-I) :
-			((-N,-SI,-SJ), (X,SZ,-SY)),
-		(-N,-SI,-SJ) :
-			((I,J,-N), (-SY,-SZ,X)),
-		},
+		conjugate_examination(wA, tA, tB, [T('Z-')] + []),
+		conjugate_examination(wA, tA, tB, [T('Z-')] + [T('X-')]),
+		conjugate_examination(wA, tA, tB, [T('Z-')] + [T('X-'),T('X-')]),
+		conjugate_examination(wA, tA, tB, [T('Z-')] + [T('X+')]),
 
 		# on D face
-		{
-		(I,J,-N) :
-			((-I,-N,J), (-X,Z,Y)),
-		(-I,-N,J) :
-			((-SJ,-N,-SI), (-SZ,Y,SX)),
-		(-SJ,-N,-SI):
-			((I,J,-N), (-SZ,-SX,Y)),
-		},
-		{
-		(I,J,-N) :
-			((J,-N,I), (Y,Z,X)),
-		(J,-N,I) :
-			((-SI,-N,SJ), (-SZ,Y,SX)),
-		(-SI,-N,SJ):
-			((I,J,-N), (-SX,SZ,Y)),
-		},
-		{
-		(I,J,-N) :
-			((I,-N,-J), (X,Z,-Y)),
-		(I,-N,-J) :
-			((SJ,-N,SI), (-SZ,Y,SX)),
-		(SJ,-N,SI):
-			((I,J,-N), (SZ,SX,Y)),
-		},
-		{
-		(I,J,-N) :
-			((-J,-N,-I), (-Y,Z,-X)),
-		(-J,-N,-I) :
-			((SI,-N,-SJ), (-SZ,Y,SX)),
-		(SI,-N,-SJ):
-			((I,J,-N), (SX,-SZ,Y)),
-		},
+		conjugate_examination(wA, tA, tB, [T('Z+'),T('Z+')] + []),
+		conjugate_examination(wA, tA, tB, [T('Z+'),T('Z+')] + [T('Y-')]),
+		conjugate_examination(wA, tA, tB, [T('Z+'),T('Z+')] + [T('Y-'),T('Y-')]),
+		conjugate_examination(wA, tA, tB, [T('Z+'),T('Z+')] + [T('Y+')]),
 
 		# on B face
-		{
-		(I,J,-N) :
-			((I,-J,N), (X,-Y,-Z)),
-		(I,-J,N) :
-			((SJ,SI,N), (-SY,SX,Z)),
-		(SJ,SI,N) :
-			((I,J,-N), (SY,SX,-Z)),
-		},
-		{
-		(I,J,-N) :
-			((J,I,N), (Y,X,-Z)),
-		(J,I,N) :
-			((-SI,SJ,N), (-SY,SX,Z)),
-		(-SI,SJ,N):
-			((I,J,-N), (-SX,SY,-Z)),
-		},
-		{
-		(I,J,-N) :
-			((-I,J,N), (-X,Y,-Z)),
-		(-I,J,N) :
-			((-SJ,-SI,N), (-SY,SX,Z)),
-		(-SJ,-SI,N):
-			((I,J,-N), (-SY,-SX,-Z)),
-		},
-		{
-		(I,J,-N) :
-			((-J,-I,N), (-Y,-X,-Z)),
-		(-J,-I,N) :
-			((SI,-SJ,N), (-SY,SX,Z)),
-		(SI,-SJ,N):
-			((I,J,-N), (SX,-SY,-Z)),
-		},
+		conjugate_examination(wA, tA, tB, [T('X-')] + []),
+		conjugate_examination(wA, tA, tB, [T('X-')] + [T('Z-')]),
+		conjugate_examination(wA, tA, tB, [T('X-')] + [T('Z-'),T('Z-')]),
+		conjugate_examination(wA, tA, tB, [T('X-')] + [T('Z+')]),
 
 		# on F face
 		{
 		(I,J,-N) :
-			((I,J,-N), (X,Y,Z)),
+			((I,J,-N), V_XYZ),
 		},
-		{
-		(I,J,-N) :
-			((-J,I,-N), (-Y,X,Z)),
-		(-J,I,-N) :
-			((-I,-J,-N), (-Y,X,Z)),
-		(-I,-J,-N) :
-			((I,J,-N), (-X,-Y,Z)),
-		},
-		{
-		(I,J,-N) :
-			((-I,-J,-N), (-X,-Y,Z)),
-		(-I,-J,-N) :
-			((-J,I,-N), (Y,-X,Z)),
-		(-J,I,-N) :
-			((I,J,-N), (Y,-X,Z)),
-		},
-		{
-		(I,J,-N) :
-			((J,-I,-N), (Y,-X,Z)),
-		(J,-I,-N) :
-			((-I,-J,-N), (Y,-X,Z)),
-		(-I,-J,-N):
-			((I,J,-N), (-X,-Y,Z)),
-		},
+		conjugate_examination(wA, [T('Z-')], [T('Z-')], [] + []),
+		conjugate_examination(wA, [T('Z-'),T('Z-')], [T('Z-')], [] + []),
+		conjugate_examination(wA, [T('Z+')], [T('Z+')], [] + []),
 	]
 
 examinations_list = []
