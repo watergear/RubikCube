@@ -1,4 +1,4 @@
-class Index:
+class Index(object):
 	def __init__(self, name = '', ratio = 0):
 		self.name = name if not 0 == ratio else None;
 		self.ratio = ratio;
